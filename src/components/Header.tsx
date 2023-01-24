@@ -1,16 +1,30 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { MyContext } from "../App";
 import { StyledButton, theme } from "../styled-components";
 import { arrowDown, add, logoMobile, verticalEllipsis } from "../assets";
+import { ContextProps } from "../vite-env";
+
 export default function Header() {
-  const context = useContext(MyContext);
+  const context = useContext<ContextProps | null>(MyContext);
+
   return (
     <HeaderWrapper theme={context}>
       <div>
         <img className="logo" src={logoMobile} />
-        <h1>Platform Launch</h1>
-        <img src={arrowDown} />
+        <h1
+          onClick={() => {
+            context?.setBoardMenu(!context.boardMenu);
+          }}
+        >
+          {context?.platform}
+        </h1>
+        <img
+          src={arrowDown}
+          onClick={() => {
+            context?.setBoardMenu(!context.boardMenu);
+          }}
+        />
       </div>
 
       <div>
