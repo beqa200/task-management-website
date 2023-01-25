@@ -8,7 +8,7 @@ export default function BoardMenu() {
 
   console.log(context?.boardMenu);
   return (
-    <BoardMenuWrapper>
+    <BoardMenuWrapper isDark={context?.isDark}>
       <p className="heading">ALL BOARDS ({context?.boards?.length})</p>
 
       <div className="platforms">
@@ -36,7 +36,12 @@ export default function BoardMenu() {
 
       <div className="themeSwitcher">
         <img src={darkIcon} />
-        <div className="switcher">
+        <div
+          className="switcher"
+          onClick={() => {
+            context?.setIsDark(!context.isDark);
+          }}
+        >
           <div></div>
         </div>
         <img src={lightIcon} />
@@ -45,7 +50,7 @@ export default function BoardMenu() {
   );
 }
 
-const BoardMenuWrapper = styled.div`
+const BoardMenuWrapper = styled.div<{ isDark: Boolean | undefined }>`
   position: absolute;
   background-color: #2b2c37;
   width: 264px;
@@ -69,12 +74,11 @@ const BoardMenuWrapper = styled.div`
       display: flex;
       width: 220px;
       gap: 12px;
-      padding: 14px 0px 15px 24px;
-
+      padding: 14px 0px 15px 24px;  
       border-top-right-radius: 20px;
       border-bottom-right-radius: 20px;
-
-      p {
+      cursor: pointer;
+      p {   
         font-weight: 700;
         font-size: 15px;
         line-height: 19px;
@@ -97,9 +101,9 @@ const BoardMenuWrapper = styled.div`
     .create {
       display: flex;
       gap: 12px;
-      width: 200px;
-      padding: 14px 69px 15px 24px;
-
+      width: 175px;
+      padding: 14px 0px 15px 24px;
+      cursor: pointer;
       img {
         filter: invert(39%) sepia(35%) saturate(1074%) hue-rotate(204deg)
           brightness(93%) contrast(88%);
@@ -119,7 +123,7 @@ const BoardMenuWrapper = styled.div`
     background-color: #20212c;
     display: flex;
     justify-content: center;
-    margin: 10px auto 0px; 
+    margin: 10px auto 0px;
     gap: 23px;
     padding: 14px 0px;
     .switcher {
@@ -130,6 +134,8 @@ const BoardMenuWrapper = styled.div`
       display: flex;
       align-items: center;
       position: relative;
+      cursor: pointer;
+
       div {
         width: 14px;
         height: 14px;
@@ -137,8 +143,8 @@ const BoardMenuWrapper = styled.div`
         background-color: white;
         margin-left: 3px;
         position: absolute;
-        right: 3px;
-       
+        right: ${(props) => (props.isDark == true ? "3px" : "23px")};
+        transition: 0.2s;
       }
     }
   }

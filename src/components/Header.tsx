@@ -9,7 +9,7 @@ export default function Header() {
   const context = useContext<ContextProps | null>(MyContext);
 
   return (
-    <HeaderWrapper theme={context}>
+    <HeaderWrapper boardMenu={context?.boardMenu} isDark={context?.isDark}>
       <div>
         <img className="logo" src={logoMobile} />
         <h1
@@ -21,6 +21,7 @@ export default function Header() {
         </h1>
         <img
           src={arrowDown}
+          className="arrow"
           onClick={() => {
             context?.setBoardMenu(!context.boardMenu);
           }}
@@ -37,8 +38,12 @@ export default function Header() {
   );
 }
 
-const HeaderWrapper = styled.header`
-  background-color: ${theme.dark.headerColor};
+const HeaderWrapper = styled.header<{
+  boardMenu: Boolean | undefined;
+  isDark: Boolean | undefined;
+}>`
+  background-color: ${(props) =>
+    props.isDark == true ? theme.dark.darkGrey : theme.light.white};
   height: 64px;
   width: 100vw;
   display: flex;
@@ -58,9 +63,9 @@ const HeaderWrapper = styled.header`
     margin-right: 16px;
   }
 
-  h1 {
-    margin-left: 16px;
-    margin-right: 8px;
+  .arrow {
+    rotate: ${(props) => (props.boardMenu == true ? "180deg" : "0deg")};
+    transition: 0.2s;
   }
 
   button {
@@ -68,9 +73,12 @@ const HeaderWrapper = styled.header`
   }
 
   h1 {
-    color: ${theme.dark.headerText};
+    color: ${(props) => (props.isDark == true ? theme.dark.white : "black")};
+
     font-size: 18px;
     height: 23px;
+    margin-left: 16px;
+    margin-right: 8px;
   }
 
   img {

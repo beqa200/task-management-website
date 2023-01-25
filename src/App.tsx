@@ -9,16 +9,29 @@ import { ContextProps, Platform } from "./vite-env";
 import Add from "./pages/Add";
 import BoardMenu from "./components/BoardMenu";
 
-const boards: Platform[] | null = data.boards
+const boards: Platform[] | null = data.boards;
 
 export const MyContext = createContext<ContextProps | null>(null);
 
 function App() {
-  const [platform, setPlatform] = useState<string | undefined>(boards?.[0].name);
+  const [platform, setPlatform] = useState<string | undefined>(
+    boards?.[0].name
+  );
   const [boardMenu, setBoardMenu] = useState<boolean>(false);
-
+  const [isDark, setIsDark] = useState<boolean>(true);
   return (
-    <MyContext.Provider value={{boards, theme, platform, setPlatform, boardMenu, setBoardMenu }}>
+    <MyContext.Provider
+      value={{
+        boards,
+        theme,
+        platform,
+        setPlatform,
+        boardMenu,
+        setBoardMenu,
+        isDark,
+        setIsDark,
+      }}
+    >
       <Helmet>
         <link
           href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700&display=swap"
@@ -37,7 +50,6 @@ function App() {
       </BrowserRouter>
 
       {boardMenu && <BoardMenu />}
-
     </MyContext.Provider>
   );
 }

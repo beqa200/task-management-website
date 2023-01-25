@@ -7,6 +7,8 @@ export interface ContextProps {
   setPlatform: (platform: string | undefined) => void;
   boardMenu: boolean;
   setBoardMenu: (boardMenu: boolean) => void;
+  isDark: boolean;
+  setIsDark: (isDark: boolean) => void;
 }
 
 interface Task {
@@ -32,11 +34,14 @@ interface Platform {
   columns: Column[];
 }
 
-
 interface ThemeType {
   dark: {
     backgroundColor: string;
-    headerColor: string;
+    darkGrey: string;
     headerText: string;
+  };
+
+  light: {
+    white: string;
   };
 }

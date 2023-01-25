@@ -4,8 +4,13 @@ import styled from "styled-components";
 const theme = {
   dark: {
     backgroundColor: "#20212C",
-    headerColor: "#2B2C37",
-    headerText: "#FFFFFF"
+    darkGrey: "#2B2C37",
+    white: "#FFFFFF",
+  },
+
+  light: {
+    white: "#FFFFFF",
+    black: "#000112"
   },
 };
 
