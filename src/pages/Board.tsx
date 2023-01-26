@@ -1,19 +1,29 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
 import { MyContext } from "../App";
 import BoardMenu from "../components/BoardMenu";
 import { BlackScreen, StyledButton, theme } from "../styled-components";
 import { ThemeType } from "../vite-env";
+
+function getRandomColor() {
+  var letters = "0123456789ABCDEF";
+  var color = "#";
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
 export default function Board() {
   const params = useParams();
   const context = useContext(MyContext);
-  let completed = 0;
   const platform = context?.boards?.find(
     (item) => item.name == context.platform
   );
 
   platform?.columns.map((item) => {
+    item.color = useMemo(() => getRandomColor(), []);
     item.tasks.map((item2) => {
       item2.completed = 0;
 
@@ -44,23 +54,36 @@ export default function Board() {
       )}
 
       <div className="main">
-        {platform?.columns.map((column) => (
-          <div className="column" key={Math.random()}>
-            <h2>
-              {column.name} ({column.tasks.length})
-            </h2>
-            {column.tasks.map((task) => {
-              return (
-                <div key={Math.random()} className="task">
-                  <h3>{task.title}</h3>
-                  <p>
-                    {task.completed} of {task.subtasks.length} substasks
-                  </p>
+        {platform?.columns.map(
+          (column) =>
+            column.tasks.length != 0 && (
+              <div className="column" key={Math.random()}>
+                <div className="for-flex">
+                  <StyledCircle
+                    className="circle"
+                    randomColor={column.color}
+                  ></StyledCircle>
+                  <h2>
+                    {column.name} ({column.tasks.length})
+                  </h2>
                 </div>
-              );
-            })}
-          </div>
-        ))}
+                {column.tasks.map((task) => {
+                  return (
+                    <div key={Math.random()} className="task">
+                      <h3>{task.title}</h3>
+                      <p>
+                        {task.completed} of {task.subtasks.length} substasks
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            )
+        )}
+
+        <div className="add-column">
+          <h2>+ New Column</h2>
+        </div>
       </div>
     </BoardWrapper>
   );
@@ -70,7 +93,7 @@ const BoardWrapper = styled.div<{
   isDark: Boolean | undefined;
   theme: ThemeType;
 }>`
-        box-sizing: border-box;
+  box-sizing: border-box;
 
   .first-column {
     display: flex;
@@ -97,17 +120,27 @@ const BoardWrapper = styled.div<{
   .main {
     display: flex;
     gap: 24px;
-    margin: 0 16px;
-  width: 100%;
-
-    h2 {
-
+    padding: 24px 16px;
+    height: 100%;
+    overflow: auto;
+    .for-flex {
+      display: flex;
+      gap: 12px;
+      h2 {
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 15px;
+        letter-spacing: 2.4px;
+        color: #828fa3;
+        display: inline-block;
+      }
     }
-    
+
     .column {
       display: flex;
       flex-direction: column;
       gap: 20px;
+
       .task {
         width: 280px;
         padding: 23px 16px;
@@ -132,5 +165,32 @@ const BoardWrapper = styled.div<{
         }
       }
     }
+
+    .add-column {
+      background: ${(props) =>
+        props.isDark == true
+          ? "linear-gradient( 180deg, rgba(43, 44, 55, 0.25) 0%, rgba(43, 44, 55, 0.125) 100%)"
+          : "linear-gradient(180deg, #E9EFFA 0%, rgba(233, 239, 250, 0.5) 100%);"};
+      display: flex;
+      align-items: center;
+      margin-top: 35px;
+      border-radius: 6px;
+      h2 {
+        padding: 20px 55.5px;
+        width: 169px;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 30px;
+        text-align: center;
+        color: #828fa3;
+      }
+    }
   }
+`;
+
+const StyledCircle = styled.div<{ randomColor: any }>`
+  background-color: ${(props) => props.randomColor};
+  width: 15px;
+  height: 15px;
+  border-radius: 100%;
 `;

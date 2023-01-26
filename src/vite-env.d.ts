@@ -27,6 +27,7 @@ interface SubTask {
 
 interface Column {
   name: string;
+  color?: string;
   tasks: Task[];
 }
 

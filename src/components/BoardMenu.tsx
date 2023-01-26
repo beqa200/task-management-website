@@ -15,7 +15,7 @@ export default function BoardMenu() {
 
       <div className="platforms">
         {context?.boards?.map((board) => (
-          <Link to={"/" + board.slug} key={Math.random()}>
+          <Link to={"/" + board.slug} key={Math.random()} onClick={() => context.setBoardMenu(false)}>
             <div
               className={
                 context.platform == board.name

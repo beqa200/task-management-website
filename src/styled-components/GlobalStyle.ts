@@ -14,7 +14,7 @@ const theme = {
   },
 };
 
-const GlobalStyle = createGlobalStyle<{isDark: Boolean | undefined}>`
+const GlobalStyle = createGlobalStyle<{ isDark: Boolean | undefined }>`
     * {
         margin: 0px;
         padding: 0px;
@@ -22,14 +22,14 @@ const GlobalStyle = createGlobalStyle<{isDark: Boolean | undefined}>`
     }
 
     html {
-     box-sizing: border-box;
     }
 
     body {
-        background-color: ${props => props.isDark == true ? theme.dark.backgroundColor : theme.light.backgroundColor};
-        box-sizing: border-box;
+        background-color: ${(props) =>
+          props.isDark == true
+            ? theme.dark.backgroundColor
+            : theme.light.backgroundColor};
 
-        
     }
 
     a {
