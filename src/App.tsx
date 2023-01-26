@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet";
-import { GlobalStyle, theme } from "./styled-components";
+import { BlackScreen, GlobalStyle, theme } from "./styled-components";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { createContext, useState } from "react";
 import { Header } from "./components";
@@ -19,6 +19,7 @@ function App() {
   );
   const [boardMenu, setBoardMenu] = useState<boolean>(false);
   const [isDark, setIsDark] = useState<boolean>(true);
+  console.log(boardMenu);
   return (
     <MyContext.Provider
       value={{
@@ -39,7 +40,7 @@ function App() {
         />
       </Helmet>
 
-      <GlobalStyle />
+      <GlobalStyle isDark={isDark} />
 
       <BrowserRouter>
         <Header />
@@ -48,8 +49,6 @@ function App() {
           <Route path="/" element={<Add />} />
         </Routes>
       </BrowserRouter>
-
-      {boardMenu && <BoardMenu />}
     </MyContext.Provider>
   );
 }

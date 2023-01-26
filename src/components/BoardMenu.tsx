@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { MyContext } from "../App";
 import { darkIcon, iconBoard, lightIcon } from "../assets";
+import { theme } from "../styled-components";
 
 export default function BoardMenu() {
   const context = useContext(MyContext);
@@ -13,20 +15,21 @@ export default function BoardMenu() {
 
       <div className="platforms">
         {context?.boards?.map((board) => (
-          <div
-            className={
-              context.platform == board.name
-                ? "wrapper isActive"
-                : "wrapper isNotActive"
-            }
-            onClick={() => {
-              context.setPlatform(board.name);
-            }}
-            key={Math.random()}
-          >
-            <img src={iconBoard} />
-            <p>{board.name}</p>
-          </div>
+          <Link to={"/" + board.slug} key={Math.random()}>
+            <div
+              className={
+                context.platform == board.name
+                  ? "wrapper isActive"
+                  : "wrapper isNotActive"
+              }
+              onClick={() => {
+                context.setPlatform(board.name);
+              }}
+            >
+              <img src={iconBoard} />
+              <p>{board.name}</p>
+            </div>
+          </Link>
         ))}
         <div className="create">
           <img src={iconBoard} />
@@ -35,7 +38,7 @@ export default function BoardMenu() {
       </div>
 
       <div className="themeSwitcher">
-        <img src={darkIcon} />
+        <img src={lightIcon} />
         <div
           className="switcher"
           onClick={() => {
@@ -44,7 +47,7 @@ export default function BoardMenu() {
         >
           <div></div>
         </div>
-        <img src={lightIcon} />
+        <img src={darkIcon} />
       </div>
     </BoardMenuWrapper>
   );
@@ -52,13 +55,15 @@ export default function BoardMenu() {
 
 const BoardMenuWrapper = styled.div<{ isDark: Boolean | undefined }>`
   position: absolute;
-  background-color: #2b2c37;
+  background-color: ${(props) =>
+    props.isDark == true ? theme.dark.darkGrey : theme.light.white};
   width: 264px;
   border-radius: 8px;
   padding: 16px 16px 16px 0px;
   color: #828fa3;
   left: calc(50% - 142px);
   top: 80px;
+  z-index: 2;
   .heading {
     font-weight: 700;
     font-size: 12px;
@@ -74,11 +79,11 @@ const BoardMenuWrapper = styled.div<{ isDark: Boolean | undefined }>`
       display: flex;
       width: 220px;
       gap: 12px;
-      padding: 14px 0px 15px 24px;  
+      padding: 14px 0px 15px 24px;
       border-top-right-radius: 20px;
       border-bottom-right-radius: 20px;
       cursor: pointer;
-      p {   
+      p {
         font-weight: 700;
         font-size: 15px;
         line-height: 19px;
@@ -120,12 +125,20 @@ const BoardMenuWrapper = styled.div<{ isDark: Boolean | undefined }>`
   .themeSwitcher {
     width: 90%;
     border-radius: 6px;
-    background-color: #20212c;
+    background-color: ${(props) =>
+      props.isDark == true
+        ? theme.dark.backgroundColor
+        : theme.light.backgroundColor};
     display: flex;
     justify-content: center;
     margin: 10px auto 0px;
     gap: 23px;
     padding: 14px 0px;
+
+    img {
+      object-fit: none;
+    }
+
     .switcher {
       width: 40px;
       height: 20px;

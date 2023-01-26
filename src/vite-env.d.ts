@@ -14,8 +14,10 @@ export interface ContextProps {
 interface Task {
   title: string;
   description: string;
+  completed?: number;
+  totalsubs?: number;
   status: string;
-  subTasks?: SubTask[];
+  subtasks: SubTask[];
 }
 
 interface SubTask {
@@ -38,10 +40,12 @@ interface ThemeType {
   dark: {
     backgroundColor: string;
     darkGrey: string;
-    headerText: string;
+    white: string;
   };
 
   light: {
+    backgroundColor: string;
     white: string;
+    black: string;
   };
 }

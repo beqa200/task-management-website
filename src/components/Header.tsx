@@ -8,8 +8,12 @@ import { ContextProps } from "../vite-env";
 export default function Header() {
   const context = useContext<ContextProps | null>(MyContext);
 
+  const platform = context?.boards?.find(
+    (item) => item.name == context.platform
+  );
+  
   return (
-    <HeaderWrapper boardMenu={context?.boardMenu} isDark={context?.isDark}>
+    <HeaderWrapper boardMenu={context?.boardMenu} isDark={context?.isDark} columnLength={platform?.columns.length}>
       <div>
         <img className="logo" src={logoMobile} />
         <h1
@@ -41,6 +45,7 @@ export default function Header() {
 const HeaderWrapper = styled.header<{
   boardMenu: Boolean | undefined;
   isDark: Boolean | undefined;
+  columnLength: number | undefined;
 }>`
   background-color: ${(props) =>
     props.isDark == true ? theme.dark.darkGrey : theme.light.white};
@@ -70,6 +75,7 @@ const HeaderWrapper = styled.header<{
 
   button {
     margin-right: 16px;
+    opacity: ${props => props.columnLength == 0 ? "0.5" : "1"} 
   }
 
   h1 {
