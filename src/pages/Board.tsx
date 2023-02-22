@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import styled from "styled-components";
 import { MyContext } from "../App";
 import BoardMenu from "../components/BoardMenu";
+import TaskDetails from "../components/TaskDetails";
 import { BlackScreen, StyledButton, theme } from "../styled-components";
 import { ThemeType } from "../vite-env";
 
@@ -14,19 +15,29 @@ function getRandomColor() {
   }
   return color;
 }
-
 export default function Board() {
+  const [column, setColumn] = useState<number>(0);
+  const [taskIndex, setTaskIndex]= useState<number>(0);
   const params = useParams();
   const context = useContext(MyContext);
   const platform = context?.boards?.find(
     (item) => item.name == context.platform
   );
 
+  //find platform index
+  let platformIndex = 0;
+  context?.boards.map((item, index) => {
+    if (item.name == context.platform) {
+      platformIndex = index;
+    }
+  });
+
+  console.log(platformIndex);
+
   platform?.columns.map((item) => {
     item.color = useMemo(() => getRandomColor(), []);
     item.tasks.map((item2) => {
       item2.completed = 0;
-
       item2.subtasks.map((item3) => {
         if (item3.isCompleted == true && item2.completed != undefined) {
           item2.completed++;
@@ -55,7 +66,7 @@ export default function Board() {
 
       <div className="main">
         {platform?.columns.map(
-          (column) =>
+          (column, index) =>
             column.tasks.length != 0 && (
               <div className="column" key={Math.random()}>
                 <div className="for-flex">
@@ -67,9 +78,18 @@ export default function Board() {
                     {column.name} ({column.tasks.length})
                   </h2>
                 </div>
-                {column.tasks.map((task) => {
+                {column.tasks.map((task, index2) => {
                   return (
-                    <div key={Math.random()} className="task">
+                    <div
+                      key={Math.random()}
+                      className="task"
+                      onClick={() => {
+                        context?.setIsTaskDetails(true);
+                        context?.setTaskDetails(task);
+                        setColumn(index);
+                        setTaskIndex(index2);
+                      }}
+                    >
                       <h3>{task.title}</h3>
                       <p>
                         {task.completed} of {task.subtasks.length} substasks
@@ -85,6 +105,7 @@ export default function Board() {
           <h2>+ New Column</h2>
         </div>
       </div>
+      {context?.isTaskDetails && <TaskDetails platformIndex={platformIndex} column={column} taskIndex={taskIndex} task={context.taskDetails} />}
     </BoardWrapper>
   );
 }

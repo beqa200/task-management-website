@@ -1,7 +1,8 @@
 /// <reference types="vite/client" />
 
 export interface ContextProps {
-  boards: Platform[] | null;
+  boards: Platform[];
+  setBoards: (boards: Platform[]) => void;
   theme: ThemeType;
   platform: string | undefined;
   setPlatform: (platform: string | undefined) => void;
@@ -9,20 +10,25 @@ export interface ContextProps {
   setBoardMenu: (boardMenu: boolean) => void;
   isDark: boolean;
   setIsDark: (isDark: boolean) => void;
+  isTaskDetails: boolean;
+  setIsTaskDetails: (isDark: boolean) => void;
+  taskDetails: Task | undefined;
+  setTaskDetails: (taskDetails: Task | undefined) => void;
 }
 
 interface Task {
   title: string;
   description: string;
   completed?: number;
-  totalsubs?: number;
   status: string;
   subtasks: SubTask[];
+  task?: any;
 }
 
 interface SubTask {
   title: string;
   isCompleted: boolean;
+  id?: number;
 }
 
 interface Column {
