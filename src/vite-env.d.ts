@@ -45,13 +45,14 @@ interface Platform {
 
 interface ThemeType {
   dark: {
-    backgroundColor: string;
+    veryDarkGrey: string;
     darkGrey: string;
+    mediumGrey: string;
     white: string;
   };
 
   light: {
-    backgroundColor: string;
+    lightGrey: string;
     white: string;
     black: string;
   };

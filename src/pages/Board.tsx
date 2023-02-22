@@ -17,9 +17,10 @@ function getRandomColor() {
 }
 export default function Board() {
   const [column, setColumn] = useState<number>(0);
-  const [taskIndex, setTaskIndex]= useState<number>(0);
-  const params = useParams();
+  const [taskIndex, setTaskIndex] = useState<number>(0);
   const context = useContext(MyContext);
+
+  //find platform
   const platform = context?.boards?.find(
     (item) => item.name == context.platform
   );
@@ -32,8 +33,7 @@ export default function Board() {
     }
   });
 
-  console.log(platformIndex);
-
+  //set random color circles for each column
   platform?.columns.map((item) => {
     item.color = useMemo(() => getRandomColor(), []);
     item.tasks.map((item2) => {
@@ -49,10 +49,11 @@ export default function Board() {
   return (
     <BoardWrapper isDark={context?.isDark} theme={context?.theme}>
       {context?.boardMenu && <BoardMenu />}
-      {context?.boardMenu && (
+      {(context?.boardMenu || context?.isTaskDetails) && (
         <BlackScreen
           onClick={() => {
             context?.setBoardMenu(false);
+            context?.setIsTaskDetails(false);
           }}
         />
       )}
@@ -105,7 +106,14 @@ export default function Board() {
           <h2>+ New Column</h2>
         </div>
       </div>
-      {context?.isTaskDetails && <TaskDetails platformIndex={platformIndex} column={column} taskIndex={taskIndex} task={context.taskDetails} />}
+      {context?.isTaskDetails && (
+        <TaskDetails
+          platformIndex={platformIndex}
+          column={column}
+          taskIndex={taskIndex}
+          task={context.taskDetails}
+        />
+      )}
     </BoardWrapper>
   );
 }

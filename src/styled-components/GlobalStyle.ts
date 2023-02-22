@@ -2,13 +2,14 @@ import { createGlobalStyle } from "styled-components";
 import styled from "styled-components";
 const theme = {
   dark: {
-    backgroundColor: "#20212C",
+    veryDarkGrey: "#20212C",
     darkGrey: "#2B2C37",
+    mediumGrey: "#828FA3",
     white: "#FFFFFF",
   },
 
   light: {
-    backgroundColor: "#F4F7FD",
+    lightGrey: "#F4F7FD",
     white: "#FFFFFF",
     black: "#000112",
   },
@@ -27,8 +28,8 @@ const GlobalStyle = createGlobalStyle<{ isDark: Boolean | undefined }>`
     body {
         background-color: ${(props) =>
           props.isDark == true
-            ? theme.dark.backgroundColor
-            : theme.light.backgroundColor};
+            ? theme.dark.veryDarkGrey
+            : theme.light.lightGrey};
 
     }
 

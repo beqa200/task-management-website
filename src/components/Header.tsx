@@ -19,6 +19,7 @@ export default function Header() {
         <h1
           onClick={() => {
             context?.setBoardMenu(!context.boardMenu);
+            context?.setIsTaskDetails(false);
           }}
         >
           {context?.platform}

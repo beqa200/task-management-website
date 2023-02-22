@@ -127,8 +127,8 @@ const BoardMenuWrapper = styled.div<{ isDark: Boolean | undefined }>`
     border-radius: 6px;
     background-color: ${(props) =>
       props.isDark == true
-        ? theme.dark.backgroundColor
-        : theme.light.backgroundColor};
+        ? theme.dark.veryDarkGrey
+        : theme.light.lightGrey};
     display: flex;
     justify-content: center;
     margin: 10px auto 0px;
