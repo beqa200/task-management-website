@@ -14,6 +14,8 @@ export interface ContextProps {
   setIsTaskDetails: (isDark: boolean) => void;
   taskDetails: Task | undefined;
   setTaskDetails: (taskDetails: Task | undefined) => void;
+  isAddTask: Boolean;
+  setIsAddTask: (isAddTask: Boolean) => void;
 }
 
 interface Task {

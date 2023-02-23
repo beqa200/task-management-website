@@ -14,4 +14,9 @@ const StyledButton = styled.button`
   color: #ffffff;
 `;
 
-export default StyledButton;
+const StyledWhiteButton = styled(StyledButton)`
+  color: #635fc7;
+  height: 40px;
+`
+
+export  {StyledButton, StyledWhiteButton};

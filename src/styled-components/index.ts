@@ -1,2 +1,9 @@
 export { GlobalStyle, theme, BlackScreen } from "./GlobalStyle";
-export { default as StyledButton } from "./Button.styled";
+export { StyledButton, StyledWhiteButton } from "./Buttons.styled";
+export {
+  TitleInput,
+  StyledLabel,
+  DescriptionInput,
+  SubTaskInput,
+  SelectInput
+} from "./Inputs.styled";

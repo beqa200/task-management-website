@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import styled, { ThemeProps } from "styled-components";
 import { MyContext } from "../App";
 import { arrowDown, verticalEllipsis } from "../assets";
-import { theme } from "../styled-components";
+import { SelectInput, StyledLabel, theme } from "../styled-components";
 import { ContextProps, SubTask, Task, ThemeType } from "../vite-env";
 
 export default function TaskDetails(props: {
@@ -29,6 +29,7 @@ export default function TaskDetails(props: {
     });
   };
 
+  //change task status
   const handleSelectOption = (value: any) => {
     const clone: any = context?.boards;
     const newColumn = clone[props.platformIndex].columns.find(
@@ -36,9 +37,10 @@ export default function TaskDetails(props: {
     );
     console.log(newColumn);
     newColumn.tasks.push(props.task);
-    delete clone[props.platformIndex].columns[props.column].tasks[
-      props.taskIndex
-    ];
+    clone[props.platformIndex].columns[props.column].tasks.splice(
+      props.taskIndex,
+      1
+    );
     context?.setIsTaskDetails(false);
     context?.setBoards([...clone]);
   };
@@ -66,7 +68,7 @@ export default function TaskDetails(props: {
                   checked={task.isCompleted}
                   onChange={() => toggleSubtaskCompleted(task.id)}
                 />
-                <label
+                <StyledLabel
                   style={
                     task.isCompleted == true
                       ? { opacity: 0.5, textDecoration: "line-through" }
@@ -74,14 +76,14 @@ export default function TaskDetails(props: {
                   }
                 >
                   {task.title}
-                </label>
+                </StyledLabel>
               </div>
             );
           })}
         </div>
         <div className="status">
-          <label>Current Status</label>
-          <select
+          <StyledLabel>Current Status</StyledLabel>
+          <SelectInput
             onChange={(e) => handleSelectOption(e.target.value)}
             value={
               context?.boards[props.platformIndex].columns[props.column].name
@@ -90,7 +92,7 @@ export default function TaskDetails(props: {
             {context?.boards[props.platformIndex].columns.map((column) => (
               <option value={column.name}>{column.name}</option>
             ))}
-          </select>
+          </SelectInput>
         </div>
       </div>
     </TaskDetailsWrapper>
@@ -128,6 +130,10 @@ const TaskDetailsWrapper = styled.div<{
     justify-content: space-between;
   }
 
+  .more {
+    object-fit: none;
+  }
+
   .description {
     font-weight: 500;
     font-size: 13px;
@@ -141,6 +147,7 @@ const TaskDetailsWrapper = styled.div<{
     font-weight: 700;
     font-size: 12px;
     line-height: 15px;
+    margin-top: 24px;
     color: ${(props) =>
       props.isDark == true ? theme.light.white : theme.dark.mediumGrey};
   }
@@ -150,6 +157,8 @@ const TaskDetailsWrapper = styled.div<{
     display: flex;
     flex-direction: column;
     gap: 8px;
+    max-height: 290px;
+    overflow-y: auto;
     div {
       width: calc(100% - 24px);
       background-color: ${(props) =>
@@ -164,14 +173,8 @@ const TaskDetailsWrapper = styled.div<{
       }
 
       label {
-        font-weight: 700;
-        font-size: 12px;
-        line-height: 15px;
-        text-decoration-line: line-through;
         color: ${(props) =>
           props.isDark == true ? theme.light.white : theme.light.black};
-        mix-blend-mode: normal;
-        opacity: 0.5;
       }
     }
   }
@@ -188,20 +191,8 @@ const TaskDetailsWrapper = styled.div<{
     }
 
     select {
-      margin-top: 8px;
-      padding: 8px 16px;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background-image: url(${arrowDown});
-      background-repeat: no-repeat;
-      background-position: right 15px center;
-      border: 1px solid rgba(130, 143, 163, 0.25);
-      border-radius: 4px;
-      background-color: transparent;
       color: ${(props) =>
         props.isDark == true ? theme.light.white : theme.light.black};
-
       option {
         background-color: ${(props) =>
           props.isDark == true

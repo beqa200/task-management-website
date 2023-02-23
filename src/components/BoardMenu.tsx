@@ -134,7 +134,6 @@ const BoardMenuWrapper = styled.div<{ isDark: Boolean | undefined }>`
     margin: 10px auto 0px;
     gap: 23px;
     padding: 14px 0px;
-
     img {
       object-fit: none;
     }

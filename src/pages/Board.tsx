@@ -2,6 +2,7 @@ import React, { useContext, useMemo, useState } from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
 import { MyContext } from "../App";
+import AddTask from "../components/AddTask";
 import BoardMenu from "../components/BoardMenu";
 import TaskDetails from "../components/TaskDetails";
 import { BlackScreen, StyledButton, theme } from "../styled-components";
@@ -49,11 +50,13 @@ export default function Board() {
   return (
     <BoardWrapper isDark={context?.isDark} theme={context?.theme}>
       {context?.boardMenu && <BoardMenu />}
-      {(context?.boardMenu || context?.isTaskDetails) && (
+      {context?.isAddTask && <AddTask platformIndex={platformIndex} />}
+      {(context?.boardMenu || context?.isTaskDetails || context?.isAddTask) && (
         <BlackScreen
           onClick={() => {
             context?.setBoardMenu(false);
             context?.setIsTaskDetails(false);
+            context?.setIsAddTask(false);
           }}
         />
       )}

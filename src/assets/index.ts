@@ -5,3 +5,4 @@ export { default as add } from "./icon-add-task-mobile.svg";
 export { default as iconBoard } from "./icon-board.svg";
 export { default as darkIcon } from "./icon-dark-theme.svg";
 export { default as lightIcon } from "./icon-light-theme.svg";
+export {default as deleteIcon} from "./icon-cross.svg";

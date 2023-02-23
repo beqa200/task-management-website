@@ -11,15 +11,20 @@ export default function Header() {
   const platform = context?.boards?.find(
     (item) => item.name == context.platform
   );
-  
+
   return (
-    <HeaderWrapper boardMenu={context?.boardMenu} isDark={context?.isDark} columnLength={platform?.columns.length}>
+    <HeaderWrapper
+      boardMenu={context?.boardMenu}
+      isDark={context?.isDark}
+      columnLength={platform?.columns.length}
+    >
       <div>
         <img className="logo" src={logoMobile} />
         <h1
           onClick={() => {
             context?.setBoardMenu(!context.boardMenu);
             context?.setIsTaskDetails(false);
+            context?.setIsAddTask(false);
           }}
         >
           {context?.platform}
@@ -34,7 +39,12 @@ export default function Header() {
       </div>
 
       <div>
-        <StyledButton>
+        <StyledButton
+          onClick={() => {
+            context?.setIsAddTask(true);
+            context?.setBoardMenu(false), context?.setIsTaskDetails(false);
+          }}
+        >
           <img src={add} />
         </StyledButton>
         <img className="more" src={verticalEllipsis} />
@@ -76,7 +86,7 @@ const HeaderWrapper = styled.header<{
 
   button {
     margin-right: 16px;
-    opacity: ${props => props.columnLength == 0 ? "0.5" : "1"} 
+    opacity: ${(props) => (props.columnLength == 0 ? "0.5" : "1")};
   }
 
   h1 {
