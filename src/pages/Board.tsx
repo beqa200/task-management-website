@@ -69,41 +69,38 @@ export default function Board() {
       )}
 
       <div className="main">
-        {platform?.columns.map(
-          (column, index) =>
-            column.tasks.length != 0 && (
-              <div className="column" key={Math.random()}>
-                <div className="for-flex">
-                  <StyledCircle
-                    className="circle"
-                    randomColor={column.color}
-                  ></StyledCircle>
-                  <h2>
-                    {column.name} ({column.tasks.length})
-                  </h2>
+        {platform?.columns.map((column, index) => (
+          <div className="column" key={Math.random()}>
+            <div className="for-flex">
+              <StyledCircle
+                className="circle"
+                randomColor={column.color}
+              ></StyledCircle>
+              <h2>
+                {column.name} ({column.tasks.length})
+              </h2>
+            </div>
+            {column.tasks.map((task, index2) => {
+              return (
+                <div
+                  key={Math.random()}
+                  className="task"
+                  onClick={() => {
+                    context?.setIsTaskDetails(true);
+                    context?.setTaskDetails(task);
+                    setColumn(index);
+                    setTaskIndex(index2);
+                  }}
+                >
+                  <h3>{task.title}</h3>
+                  <p>
+                    {task.completed} of {task.subtasks.length} substasks
+                  </p>
                 </div>
-                {column.tasks.map((task, index2) => {
-                  return (
-                    <div
-                      key={Math.random()}
-                      className="task"
-                      onClick={() => {
-                        context?.setIsTaskDetails(true);
-                        context?.setTaskDetails(task);
-                        setColumn(index);
-                        setTaskIndex(index2);
-                      }}
-                    >
-                      <h3>{task.title}</h3>
-                      <p>
-                        {task.completed} of {task.subtasks.length} substasks
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-            )
-        )}
+              );
+            })}
+          </div>
+        ))}
 
         <div className="add-column">
           <h2>+ New Column</h2>
@@ -158,6 +155,7 @@ const BoardWrapper = styled.div<{
     .for-flex {
       display: flex;
       gap: 12px;
+      width: 344px;
       h2 {
         font-weight: 700;
         font-size: 12px;
@@ -172,7 +170,7 @@ const BoardWrapper = styled.div<{
       display: flex;
       flex-direction: column;
       gap: 20px;
-
+      width: 344px;
       .task {
         width: 280px;
         padding: 23px 16px;

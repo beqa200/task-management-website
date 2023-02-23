@@ -12,7 +12,7 @@ export default function TaskDetails(props: {
   taskIndex: number;
 }) {
   const context = useContext(MyContext);
-
+  const [isMore, setIsMore] = useState(false);
   //change checkbox value and update whole state
   const toggleSubtaskCompleted = (subtaskId: any) => {
     props.task?.subtasks?.map((subtask) => {
@@ -46,14 +46,39 @@ export default function TaskDetails(props: {
   };
 
   return (
-    <TaskDetailsWrapper theme={context?.theme} isDark={context?.isDark}>
+    <TaskDetailsWrapper theme={context?.theme} isDark={context?.isDark} >
+      {isMore && (
+        <div className="more">
+          <p className="edit">Edit Task</p>
+          <p
+            className="delete"
+            onClick={() => {
+              const clone: any = context?.boards;
+              clone[props.platformIndex].columns[props.column].tasks.splice(
+                props.taskIndex,
+                1
+              );
+              context?.setBoards(clone);
+              context?.setIsTaskDetails(false);
+            }}
+          >
+            Delete Task
+          </p>
+        </div>
+      )}
       <div className="for-flex">
         <h1>{props.task?.title}</h1>
-        <img className="more" src={verticalEllipsis} />
+        <img
+          className="more-img"
+          src={verticalEllipsis}
+          onClick={() => {
+            setIsMore(!isMore);
+          }}
+        />
       </div>
 
-      <p className="description">{props.task?.description}</p>
-      <div className="subtasks">
+      <p className="description" onClick={() => {setIsMore(false)}}>{props.task?.description}</p>
+      <div className="subtasks" onClick={() => {setIsMore(false)}}>
         <p className="subs">
           Subtasks ({props.task?.completed} of {props.task?.subtasks.length})
         </p>
@@ -115,6 +140,29 @@ const TaskDetailsWrapper = styled.div<{
   padding: 24px 24px 32px 24px;
   border-radius: 6px;
 
+  .more {
+    background-color: ${(props) =>
+      props.isDark == true ? theme.dark.darkGrey : theme.light.white};
+    position: absolute;
+    padding: 16px;
+    box-shadow: 0px 10px 20px rgba(54, 78, 126, 0.25);
+    border-radius: 8px;
+    right: -15px;
+    top: 60px;
+    z-index: 10;
+    p {
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 23px;
+      color: #828fa3;
+      width: 160px;
+    }
+
+    .delete {
+      color: #ea5555;
+      margin-top: 16px;
+    }
+  }
   h1 {
     font-weight: 700;
     font-size: 18px;
@@ -130,7 +178,7 @@ const TaskDetailsWrapper = styled.div<{
     justify-content: space-between;
   }
 
-  .more {
+  .more-img {
     object-fit: none;
   }
 
