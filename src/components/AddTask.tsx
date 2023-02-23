@@ -47,7 +47,7 @@ export default function AddTask(props: { platformIndex: number }) {
         subtasks: [],
         status: "",
       };
-      
+
       newTask.title = data.title;
       newTask.description = data.description;
       newTask.subtasks = subTasks;
@@ -73,10 +73,18 @@ export default function AddTask(props: { platformIndex: number }) {
           <StyledLabel>Title</StyledLabel>
           <TitleInput
             placeholder="e.g. Take coffee break"
+            style={
+              errors.title != undefined
+                ? { border: "1px solid #EA5555" }
+                : { border: "" }
+            }
             {...register("title", {
               required: { value: true, message: "Can’t be empty" },
             })}
           />
+          {errors.title?.message && (
+            <p style={{ left: "65%" }}>Can’t be empty</p>
+          )}
         </div>
         <div className="input-div">
           <StyledLabel>Description</StyledLabel>
@@ -89,16 +97,31 @@ a little."
         </div>
         <div className="input-div">
           <StyledLabel>Subtasks</StyledLabel>
-          <div style={{ marginBottom: "12px" }}>
-            {subTasks.map((item) => (
+          <div
+            style={{
+              marginBottom: "12px",
+              maxHeight: "150px",
+              overflowY: "auto",
+            }}
+          >
+            {subTasks.map((item, index) => (
               <div className="item">
                 <SubTaskInput
                   placeholder="e.g. Make coffee"
                   value={item.title}
+                  style={
+                    errors[`subtask${index}`] != undefined
+                      ? { border: "1px solid #EA5555" }
+                      : { border: "" }
+                  }
+                  {...register(`subtask${index}`, {
+                    required: { value: true, message: "Can’t be empty" },
+                  })}
                   onChange={(e) => {
                     const clone = [...subTasks];
                     clone[clone.indexOf(item)].title = e.target.value;
                     setSubTasks(clone);
+                    clearErrors(`subtask${index}`);
                   }}
                 />
                 <img
@@ -109,6 +132,7 @@ a little."
                     setSubTasks(clone);
                   }}
                 />
+                {errors[`subtask${index}`]?.message && <p>Can’t be empty</p>}
               </div>
             ))}
           </div>
@@ -170,6 +194,7 @@ const AddTaskWrapper = styled.div<{
     display: flex;
     flex-direction: column;
     margin-top: 24px;
+    position: relative;
     label {
       color: ${(props) =>
         props.isDark == true
@@ -182,6 +207,7 @@ const AddTaskWrapper = styled.div<{
       justify-content: space-between;
       gap: 16px;
       align-items: center;
+      position: relative;
       img {
         object-fit: none;
         margin-top: 8px;
@@ -210,6 +236,16 @@ const AddTaskWrapper = styled.div<{
             ? props.theme.light.white
             : props.theme.light.black};
       }
+    }
+
+    p {
+      position: absolute;
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 23px;
+      color: #ea5555;
+      left: 55%;
+      bottom: 9px;
     }
   }
 `;
