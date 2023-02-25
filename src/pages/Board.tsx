@@ -8,6 +8,7 @@ import EditTask from "../components/EditTask";
 import TaskDetails from "../components/TaskDetails";
 import { BlackScreen, StyledButton, theme } from "../styled-components";
 import { ThemeType } from "../vite-env";
+import TaskDelete from "../components/TaskDelete";
 
 function getRandomColor() {
   var letters = "0123456789ABCDEF";
@@ -52,15 +53,20 @@ export default function Board() {
     <BoardWrapper isDark={context?.isDark} theme={context?.theme}>
       {context?.boardMenu && <BoardMenu />}
       {context?.isAddTask && <AddTask platformIndex={platformIndex} />}
-      {context?.isEditTask && <EditTask platformIndex={platformIndex} task={context.taskDetails} column={column} taskIndex={taskIndex}/>}
-      {(context?.boardMenu || context?.isTaskDetails || context?.isAddTask || context?.isEditTask) && (
-        <BlackScreen
-          onClick={() => {
-            context?.setBoardMenu(false);
-            context?.setIsTaskDetails(false);
-            context?.setIsAddTask(false);
-            context?.setIsEditTask(false);
-          }}
+      {context?.isEditTask && (
+        <EditTask
+          platformIndex={platformIndex}
+          task={context.taskDetails}
+          column={column}
+          taskIndex={taskIndex}
+        />
+      )}
+      {context?.isTaskDelete && (
+        <TaskDelete
+          taskName={context.taskDetails?.title}
+          platformIndex={platformIndex}
+          column={column}
+          taskIndex={taskIndex}
         />
       )}
 

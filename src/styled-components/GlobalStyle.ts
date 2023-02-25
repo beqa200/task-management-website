@@ -15,15 +15,21 @@ const theme = {
   },
 };
 
-const GlobalStyle = createGlobalStyle<{ isDark: Boolean | undefined }>`
+const GlobalStyle = createGlobalStyle<{
+  isDark: Boolean | undefined;
+  boardMenu: Boolean;
+  isTaskDetails: Boolean;
+  isAddTask: Boolean;
+  isEditTask: Boolean;
+  isTaskDelete: Boolean;
+}>`
     * {
         margin: 0px;
         padding: 0px;
         font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    html {
-    }
+
 
     body {
         background-color: ${(props) =>
@@ -31,6 +37,14 @@ const GlobalStyle = createGlobalStyle<{ isDark: Boolean | undefined }>`
             ? theme.dark.veryDarkGrey
             : theme.light.lightGrey};
 
+          overflow: ${(props) =>
+            props.boardMenu ||
+            props.isAddTask ||
+            props.isTaskDetails ||
+            props.isEditTask ||
+            props.isTaskDelete
+              ? "hidden"
+              : "auto"}
     }
 
     a {

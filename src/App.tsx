@@ -9,12 +9,11 @@ import { ContextProps, Platform, Task } from "./vite-env";
 import Add from "./pages/Add";
 import BoardMenu from "./components/BoardMenu";
 
-
 export const MyContext = createContext<ContextProps | null>(null);
 
 function App() {
   //global states
-  const [boards, setBoards] = useState<Platform[]>(data.boards)
+  const [boards, setBoards] = useState<Platform[]>(data.boards);
   const [platform, setPlatform] = useState<string | undefined>(
     boards?.[0].name
   );
@@ -24,7 +23,7 @@ function App() {
   const [taskDetails, setTaskDetails] = useState<Task | undefined>();
   const [isAddTask, setIsAddTask] = useState<Boolean>(false);
   const [isEditTask, setIsEditTask] = useState<Boolean>(false);
-  
+  const [isTaskDelete, setIsTaskDelete] = useState<Boolean>(false);
   return (
     <MyContext.Provider
       value={{
@@ -45,6 +44,8 @@ function App() {
         setIsAddTask,
         isEditTask,
         setIsEditTask,
+        isTaskDelete,
+        setIsTaskDelete
       }}
     >
       <Helmet>
@@ -54,16 +55,22 @@ function App() {
         />
       </Helmet>
 
-      <GlobalStyle isDark={isDark} />
-
+      <GlobalStyle isDark={isDark} boardMenu={boardMenu} isTaskDetails={isTaskDetails} isAddTask={isAddTask} isEditTask={isEditTask} isTaskDelete={isTaskDelete}/>
+      {(boardMenu || isTaskDetails || isAddTask || isEditTask || isTaskDelete) && (
+        <BlackScreen
+          onClick={() => {
+            setBoardMenu(false);
+            setIsTaskDetails(false);
+            setIsAddTask(false);
+          }}
+        />
+      )}
       <BrowserRouter>
         <Header />
         <Routes>
           <Route path="/:platform" element={<Board />} />
           <Route path="/" element={<Add />} />
-
         </Routes>
-        
       </BrowserRouter>
     </MyContext.Provider>
   );

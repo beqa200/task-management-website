@@ -15,7 +15,7 @@ const StyledButton = styled.button`
 `;
 
 const StyledWhiteButton = styled.div`
-  background-color: #635fc7;
+  background-color: #ffffff;
   border: none;
   border-radius: 24px;
   padding: 8px 18px;
@@ -23,10 +23,17 @@ const StyledWhiteButton = styled.div`
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
-  line-height: 19px;
   color: #635fc7;
-
   text-align: center;
-`
+  line-height: 23px;
+`;
 
-export  {StyledButton, StyledWhiteButton};
+const StyledRedButton = styled(StyledButton)`
+  background-color: #ea5555;
+  display: block;
+  width: 100%;
+  height: 40px;
+
+`;
+
+export { StyledButton, StyledWhiteButton, StyledRedButton };

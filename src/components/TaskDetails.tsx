@@ -4,6 +4,7 @@ import { MyContext } from "../App";
 import { arrowDown, verticalEllipsis } from "../assets";
 import { SelectInput, StyledLabel, theme } from "../styled-components";
 import { ContextProps, SubTask, Task, ThemeType } from "../vite-env";
+import Delete from "./TaskDelete";
 
 export default function TaskDetails(props: {
   task: Task | undefined;
@@ -13,6 +14,7 @@ export default function TaskDetails(props: {
 }) {
   const context = useContext(MyContext);
   const [isMore, setIsMore] = useState(false);
+
   //change checkbox value and update whole state
   const toggleSubtaskCompleted = (subtaskId: any) => {
     props.task?.subtasks?.map((subtask) => {
@@ -60,13 +62,8 @@ export default function TaskDetails(props: {
           <p
             className="delete"
             onClick={() => {
-              const clone: any = context?.boards;
-              clone[props.platformIndex].columns[props.column].tasks.splice(
-                props.taskIndex,
-                1
-              );
-              context?.setBoards(clone);
               context?.setIsTaskDetails(false);
+              context?.setIsTaskDelete(true);
             }}
           >
             Delete Task
