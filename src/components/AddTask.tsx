@@ -30,13 +30,20 @@ export default function AddTask(props: { platformIndex: number }) {
   console.log(watch("description"));
 
   const [subTasks, setSubTasks] = useState([
-    { title: "", isCompleted: false },
-    { title: "", isCompleted: false },
+    { title: "", isCompleted: false, id: (Math.random() * 100000).toFixed(0) },
+    { title: "", isCompleted: false, id: (Math.random() * 100000).toFixed(0) },
   ]);
 
   const addSubTask = () => {
-    const clone = [...subTasks];
-    setSubTasks([...clone, { title: "", isCompleted: false }]);
+    const clone: any = [...subTasks];
+    setSubTasks([
+      ...clone,
+      {
+        title: "",
+        isCompleted: false,
+        id: (Math.random() * 100000).toFixed(0),
+      },
+    ]);
   };
 
   const onSubmit = (data: any) => {
@@ -104,37 +111,44 @@ a little."
               overflowY: "auto",
             }}
           >
-            {subTasks.map((item, index) => (
-              <div className="item">
-                <SubTaskInput
-                  placeholder="e.g. Make coffee"
-                  value={item.title}
-                  style={
-                    errors[`subtask${index}`] != undefined
-                      ? { border: "1px solid #EA5555" }
-                      : { border: "" }
-                  }
-                  {...register(`subtask${index}`, {
-                    required: { value: true, message: "Can’t be empty" },
-                  })}
-                  onChange={(e) => {
-                    const clone = [...subTasks];
-                    clone[clone.indexOf(item)].title = e.target.value;
-                    setSubTasks(clone);
-                    clearErrors(`subtask${index}`);
-                  }}
-                />
-                <img
-                  src={deleteIcon}
-                  onClick={() => {
-                    const clone = [...subTasks];
-                    clone.splice(clone.indexOf(item), 1);
-                    setSubTasks(clone);
-                  }}
-                />
-                {errors[`subtask${index}`]?.message && <p>Can’t be empty</p>}
-              </div>
-            ))}
+            {subTasks.map((item) => {
+              item.id = (Math.random() * 100000).toFixed(8);
+              {
+                return (
+                  <div className="item">
+                    <SubTaskInput
+                      placeholder="e.g. Make coffee"
+                      value={item.title}
+                      style={
+                        errors[`subtask${item.id}`] != undefined
+                          ? { border: "1px solid #EA5555" }
+                          : { border: "" }
+                      }
+                      {...register(`subtask${item.id}`, {
+                        required: { value: true, message: "Can’t be empty" },
+                      })}
+                      onChange={(e) => {
+                        const clone = [...subTasks];
+                        clone[clone.indexOf(item)].title = e.target.value;
+                        setSubTasks(clone);
+                        clearErrors(`subtask${item.id}`);
+                      }}
+                    />
+                    <img
+                      src={deleteIcon}
+                      onClick={() => {
+                        const clone = [...subTasks];
+                        clone.splice(clone.indexOf(item), 1);
+                        setSubTasks(clone);
+                      }}
+                    />
+                    {errors[`subtask${item.id}`]?.message && (
+                      <p>Can’t be empty</p>
+                    )}
+                  </div>
+                );
+              }
+            })}
           </div>
           <StyledWhiteButton className="addButon" onClick={addSubTask}>
             + Add New Subtask
@@ -158,7 +172,7 @@ a little."
   );
 }
 
-const AddTaskWrapper = styled.div<{
+export const AddTaskWrapper = styled.div<{
   isDark: Boolean | undefined;
   theme: ThemeType;
 }>`

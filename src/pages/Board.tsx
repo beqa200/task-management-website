@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { MyContext } from "../App";
 import AddTask from "../components/AddTask";
 import BoardMenu from "../components/BoardMenu";
+import EditTask from "../components/EditTask";
 import TaskDetails from "../components/TaskDetails";
 import { BlackScreen, StyledButton, theme } from "../styled-components";
 import { ThemeType } from "../vite-env";
@@ -51,12 +52,14 @@ export default function Board() {
     <BoardWrapper isDark={context?.isDark} theme={context?.theme}>
       {context?.boardMenu && <BoardMenu />}
       {context?.isAddTask && <AddTask platformIndex={platformIndex} />}
-      {(context?.boardMenu || context?.isTaskDetails || context?.isAddTask) && (
+      {context?.isEditTask && <EditTask platformIndex={platformIndex} task={context.taskDetails} column={column} taskIndex={taskIndex}/>}
+      {(context?.boardMenu || context?.isTaskDetails || context?.isAddTask || context?.isEditTask) && (
         <BlackScreen
           onClick={() => {
             context?.setBoardMenu(false);
             context?.setIsTaskDetails(false);
             context?.setIsAddTask(false);
+            context?.setIsEditTask(false);
           }}
         />
       )}

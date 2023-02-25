@@ -46,10 +46,17 @@ export default function TaskDetails(props: {
   };
 
   return (
-    <TaskDetailsWrapper theme={context?.theme} isDark={context?.isDark} >
+    <TaskDetailsWrapper theme={context?.theme} isDark={context?.isDark}>
       {isMore && (
         <div className="more">
-          <p className="edit">Edit Task</p>
+          <p
+            className="edit"
+            onClick={() => {
+              context?.setIsTaskDetails(false), context?.setIsEditTask(true);
+            }}
+          >
+            Edit Task
+          </p>
           <p
             className="delete"
             onClick={() => {
@@ -77,14 +84,26 @@ export default function TaskDetails(props: {
         />
       </div>
 
-      <p className="description" onClick={() => {setIsMore(false)}}>{props.task?.description}</p>
-      <div className="subtasks" onClick={() => {setIsMore(false)}}>
+      <p
+        className="description"
+        onClick={() => {
+          setIsMore(false);
+        }}
+      >
+        {props.task?.description}
+      </p>
+      <div
+        className="subtasks"
+        onClick={() => {
+          setIsMore(false);
+        }}
+      >
         <p className="subs">
           Subtasks ({props.task?.completed} of {props.task?.subtasks.length})
         </p>
         <div className="list">
-          {props.task?.subtasks.map((task, index) => {
-            task.id = index;
+          {props.task?.subtasks.map((task: any) => {
+            task.id = (Math.random() * 100000).toFixed(0);
             return (
               <div>
                 <input

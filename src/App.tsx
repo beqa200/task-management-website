@@ -23,7 +23,8 @@ function App() {
   const [isTaskDetails, setIsTaskDetails] = useState<boolean>(false);
   const [taskDetails, setTaskDetails] = useState<Task | undefined>();
   const [isAddTask, setIsAddTask] = useState<Boolean>(false);
-
+  const [isEditTask, setIsEditTask] = useState<Boolean>(false);
+  
   return (
     <MyContext.Provider
       value={{
@@ -41,7 +42,9 @@ function App() {
         taskDetails,
         setTaskDetails,
         isAddTask,
-        setIsAddTask
+        setIsAddTask,
+        isEditTask,
+        setIsEditTask,
       }}
     >
       <Helmet>
