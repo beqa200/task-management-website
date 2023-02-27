@@ -20,6 +20,8 @@ export interface ContextProps {
   setIsEditTask: (isEditTask: Boolean) => void;
   isTaskDelete: Boolean;
   setIsTaskDelete: (isTaskDelete: Boolean) => void;
+  isBoardDelete: Boolean;
+  setIsBoardDelete: (isBoardDelete: Boolean) => void;
 }
 
 interface Task {

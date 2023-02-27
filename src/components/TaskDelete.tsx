@@ -48,7 +48,7 @@ export default function Delete(props: {
   );
 }
 
-const DeleteWrapper = styled.div<{ isDark: Boolean | undefined }>`
+export const DeleteWrapper = styled.div<{ isDark: Boolean | undefined }>`
   position: absolute;
   z-index: 2;
   top: 50%;
@@ -82,5 +82,9 @@ const DeleteWrapper = styled.div<{ isDark: Boolean | undefined }>`
 
   .cancel {
     margin-top: 16px;
+    background-color: ${(props) =>
+      props.isDark == true
+        ? theme.light.white
+        : "rgba(99, 95, 199, 0.1)"};
   }
 `;

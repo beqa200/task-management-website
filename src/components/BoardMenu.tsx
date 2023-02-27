@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { MyContext } from "../App";
 import { darkIcon, iconBoard, lightIcon } from "../assets";
@@ -7,18 +7,22 @@ import { theme } from "../styled-components";
 
 export default function BoardMenu() {
   const context = useContext(MyContext);
+  const params = useParams();
 
-  console.log(context?.boardMenu);
   return (
     <BoardMenuWrapper isDark={context?.isDark}>
       <p className="heading">ALL BOARDS ({context?.boards?.length})</p>
 
       <div className="platforms">
         {context?.boards?.map((board) => (
-          <Link to={"/" + board.slug} key={Math.random()} onClick={() => context.setBoardMenu(false)}>
+          <Link
+            to={"/" + board.slug}
+            key={Math.random()}
+            onClick={() => context.setBoardMenu(false)}
+          >
             <div
               className={
-                context.platform == board.name
+                params.platform == board.slug
                   ? "wrapper isActive"
                   : "wrapper isNotActive"
               }
@@ -126,9 +130,7 @@ const BoardMenuWrapper = styled.div<{ isDark: Boolean | undefined }>`
     width: 90%;
     border-radius: 6px;
     background-color: ${(props) =>
-      props.isDark == true
-        ? theme.dark.veryDarkGrey
-        : theme.light.lightGrey};
+      props.isDark == true ? theme.dark.veryDarkGrey : theme.light.lightGrey};
     display: flex;
     justify-content: center;
     margin: 10px auto 0px;

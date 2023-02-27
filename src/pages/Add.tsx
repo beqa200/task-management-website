@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { MyContext } from "../App";
+import BoardMenu from "../components/BoardMenu";
 
 export default function Add() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ export default function Add() {
 
   return (
     <AddWrapper>
+      {context?.boardMenu && <BoardMenu />}
       <h1>Please Add Platform</h1>
     </AddWrapper>
   );
@@ -28,6 +30,7 @@ const AddWrapper = styled.div`
 
   h1 {
     text-align: center;
-    color: white;
+    color: #828fa3;
+
   }
 `;

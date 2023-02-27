@@ -22,6 +22,7 @@ const GlobalStyle = createGlobalStyle<{
   isAddTask: Boolean;
   isEditTask: Boolean;
   isTaskDelete: Boolean;
+  isBoardDelete: Boolean;
 }>`
     * {
         margin: 0px;
@@ -42,7 +43,8 @@ const GlobalStyle = createGlobalStyle<{
             props.isAddTask ||
             props.isTaskDetails ||
             props.isEditTask ||
-            props.isTaskDelete
+            props.isTaskDelete ||
+            props.isBoardDelete
               ? "hidden"
               : "auto"}
     }

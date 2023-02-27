@@ -9,6 +9,7 @@ import TaskDetails from "../components/TaskDetails";
 import { BlackScreen, StyledButton, theme } from "../styled-components";
 import { ThemeType } from "../vite-env";
 import TaskDelete from "../components/TaskDelete";
+import BoardDelete from "../components/BoardDelete";
 
 function getRandomColor() {
   var letters = "0123456789ABCDEF";
@@ -22,16 +23,16 @@ export default function Board() {
   const [column, setColumn] = useState<number>(0);
   const [taskIndex, setTaskIndex] = useState<number>(0);
   const context = useContext(MyContext);
-
+  const params = useParams();
   //find platform
   const platform = context?.boards?.find(
-    (item) => item.name == context.platform
+    (item) => item.slug == params.platform
   );
 
   //find platform index
   let platformIndex = 0;
   context?.boards.map((item, index) => {
-    if (item.name == context.platform) {
+    if (item.slug == params.platform) {
       platformIndex = index;
     }
   });
@@ -69,6 +70,7 @@ export default function Board() {
           taskIndex={taskIndex}
         />
       )}
+      
 
       {platform?.columns.length == 0 && (
         <div className="first-column">
@@ -121,6 +123,12 @@ export default function Board() {
           column={column}
           taskIndex={taskIndex}
           task={context.taskDetails}
+        />
+      )}
+      {context?.isBoardDelete && (
+        <BoardDelete
+          platformName={context.boards[platformIndex].name}
+          platformIndex={platformIndex}
         />
       )}
     </BoardWrapper>

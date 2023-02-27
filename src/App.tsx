@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet";
 import { BlackScreen, GlobalStyle, theme } from "./styled-components";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { Header } from "./components";
 import data from "./data.json";
 import Board from "./pages/Board";
@@ -14,9 +14,11 @@ export const MyContext = createContext<ContextProps | null>(null);
 function App() {
   //global states
   const [boards, setBoards] = useState<Platform[]>(data.boards);
-  const [platform, setPlatform] = useState<string | undefined>(
-    boards?.[0].name
-  );
+
+  const [platform, setPlatform] = useState<string | undefined>();
+
+
+  
   const [boardMenu, setBoardMenu] = useState<boolean>(false);
   const [isDark, setIsDark] = useState<boolean>(true);
   const [isTaskDetails, setIsTaskDetails] = useState<boolean>(false);
@@ -24,6 +26,17 @@ function App() {
   const [isAddTask, setIsAddTask] = useState<Boolean>(false);
   const [isEditTask, setIsEditTask] = useState<Boolean>(false);
   const [isTaskDelete, setIsTaskDelete] = useState<Boolean>(false);
+  const [isBoardDelete, setIsBoardDelete] = useState<Boolean>(false);
+
+  useEffect(() => {
+    if (platform) {
+      localStorage.setItem("platform", platform);
+    } else {
+      localStorage.setItem("platform", "");
+    }
+  }, [platform]);
+
+  console.log(boards);
   return (
     <MyContext.Provider
       value={{
@@ -45,7 +58,9 @@ function App() {
         isEditTask,
         setIsEditTask,
         isTaskDelete,
-        setIsTaskDelete
+        setIsTaskDelete,
+        isBoardDelete,
+        setIsBoardDelete,
       }}
     >
       <Helmet>
@@ -55,8 +70,21 @@ function App() {
         />
       </Helmet>
 
-      <GlobalStyle isDark={isDark} boardMenu={boardMenu} isTaskDetails={isTaskDetails} isAddTask={isAddTask} isEditTask={isEditTask} isTaskDelete={isTaskDelete}/>
-      {(boardMenu || isTaskDetails || isAddTask || isEditTask || isTaskDelete) && (
+      <GlobalStyle
+        isDark={isDark}
+        boardMenu={boardMenu}
+        isTaskDetails={isTaskDetails}
+        isAddTask={isAddTask}
+        isEditTask={isEditTask}
+        isTaskDelete={isTaskDelete}
+        isBoardDelete={isBoardDelete}
+      />
+      {(boardMenu ||
+        isTaskDetails ||
+        isAddTask ||
+        isEditTask ||
+        isTaskDelete ||
+        isBoardDelete) && (
         <BlackScreen
           onClick={() => {
             setBoardMenu(false);

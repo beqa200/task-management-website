@@ -22,10 +22,18 @@ export default function TaskDetails(props: {
         const clone: any = context?.boards;
         clone[props.platformIndex].columns[props.column].tasks[
           props.taskIndex
-        ].subtasks[subtaskId].isCompleted =
+        ].subtasks[
+          clone[props.platformIndex].columns[props.column].tasks[
+            props.taskIndex
+          ].subtasks.indexOf(subtask)
+        ].isCompleted =
           !clone?.[props.platformIndex].columns[props.column].tasks[
             props.taskIndex
-          ].subtasks[subtaskId].isCompleted;
+          ].subtasks[
+            clone[props.platformIndex].columns[props.column].tasks[
+              props.taskIndex
+            ].subtasks.indexOf(subtask)
+          ].isCompleted;
         context?.setBoards([...clone]);
       }
     });
