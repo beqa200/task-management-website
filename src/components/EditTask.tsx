@@ -60,8 +60,12 @@ export default function EditTask(props: {
     });
     context?.setBoards([...clone]);
   };
-  const onSubmit = (data: any) => {
+  const onSubmit = () => {
     if (props.task?.subtasks.every((obj: any) => obj.title !== "")) {
+      const clone: any = context?.boards;
+      clone[props.platformIndex].columns[props.column].tasks[props.taskIndex].title = watch("title");
+      clone[props.platformIndex].columns[props.column].tasks[props.taskIndex].description = watch("description");
+      context?.setBoards(clone);
       context?.setIsEditTask(false);
     }
   };
@@ -86,7 +90,7 @@ export default function EditTask(props: {
             })}
           />
           {errors.title?.message && (
-            <p style={{ left: "65%" }}>Can’t be empty</p>
+            <p style={{ left: "60%" }}>Can’t be empty</p>
           )}
         </div>
         <div className="input-div">
@@ -95,7 +99,7 @@ export default function EditTask(props: {
             placeholder="e.g. It’s always good to take a break. This 
 15 minute break will  recharge the batteries 
 a little."
-            value={props.task?.description}
+  
             {...register("description")}
           />
         </div>

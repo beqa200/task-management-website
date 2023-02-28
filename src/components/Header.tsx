@@ -54,6 +54,7 @@ export default function Header() {
             context?.setBoardMenu(!context.boardMenu);
             context?.setIsTaskDetails(false);
             context?.setIsAddTask(false);
+            setIsMore(false);
           }}
         >
           {context?.platform}
@@ -65,6 +66,7 @@ export default function Header() {
             context?.setBoardMenu(!context.boardMenu);
             context?.setIsTaskDetails(false);
             context?.setIsAddTask(false);
+            setIsMore(false);
           }}
         />
       </div>
@@ -74,7 +76,9 @@ export default function Header() {
           onClick={() => {
             if (context?.boards && context?.boards.length > 0) {
               context?.setIsAddTask(true);
-              context?.setBoardMenu(false), context?.setIsTaskDetails(false);
+              context?.setBoardMenu(false);
+              context?.setIsTaskDetails(false);
+              setIsMore(false);
             }
           }}
         >

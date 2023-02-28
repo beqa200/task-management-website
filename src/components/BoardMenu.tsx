@@ -35,7 +35,13 @@ export default function BoardMenu() {
             </div>
           </Link>
         ))}
-        <div className="create">
+        <div
+          className="create"
+          onClick={() => {
+            context?.setIsNewBoard(true);
+            context?.setBoardMenu(false);
+          }}
+        >
           <img src={iconBoard} />
           <p>+ Create New Board</p>
         </div>

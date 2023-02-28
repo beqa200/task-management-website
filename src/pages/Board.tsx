@@ -10,16 +10,32 @@ import { BlackScreen, StyledButton, theme } from "../styled-components";
 import { ThemeType } from "../vite-env";
 import TaskDelete from "../components/TaskDelete";
 import BoardDelete from "../components/BoardDelete";
+import AddBoard from "../components/AddBoard";
 
-function getRandomColor() {
-  var letters = "0123456789ABCDEF";
-  var color = "#";
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
 export default function Board() {
+  const COLORS = [
+    "#49C4E5",
+    "#8471F2",
+    "#67E2AE",
+    "#FF8C00",
+    "#4B0082",
+    "#FF1493",
+    "#DAA520",
+    "#00FA9A",
+    "#FF6347",
+    "#00BFFF",
+    "#8B0000",
+    "#6A5ACD",
+    "#2E8B57",
+    "#FFD700",
+    "#F08080",
+    "#778899",
+    "#B22222",
+    "#008080",
+    "#FFA07A",
+    "#FF00FF",
+  ];
+
   const [column, setColumn] = useState<number>(0);
   const [taskIndex, setTaskIndex] = useState<number>(0);
   const context = useContext(MyContext);
@@ -38,8 +54,8 @@ export default function Board() {
   });
 
   //set random color circles for each column
-  platform?.columns.map((item) => {
-    item.color = useMemo(() => getRandomColor(), []);
+  platform?.columns?.map((item, index) => {
+    item.color = COLORS[index];
     item.tasks.map((item2) => {
       item2.completed = 0;
       item2.subtasks.map((item3) => {
@@ -49,7 +65,7 @@ export default function Board() {
       });
     });
   });
-
+  console.log(context?.boards);
   return (
     <BoardWrapper isDark={context?.isDark} theme={context?.theme}>
       {context?.boardMenu && <BoardMenu />}
@@ -70,7 +86,7 @@ export default function Board() {
           taskIndex={taskIndex}
         />
       )}
-      
+      {context?.isNewBoard && <AddBoard />}
 
       {platform?.columns.length == 0 && (
         <div className="first-column">

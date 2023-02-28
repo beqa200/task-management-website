@@ -17,8 +17,6 @@ function App() {
 
   const [platform, setPlatform] = useState<string | undefined>();
 
-
-  
   const [boardMenu, setBoardMenu] = useState<boolean>(false);
   const [isDark, setIsDark] = useState<boolean>(true);
   const [isTaskDetails, setIsTaskDetails] = useState<boolean>(false);
@@ -27,7 +25,7 @@ function App() {
   const [isEditTask, setIsEditTask] = useState<Boolean>(false);
   const [isTaskDelete, setIsTaskDelete] = useState<Boolean>(false);
   const [isBoardDelete, setIsBoardDelete] = useState<Boolean>(false);
-
+  const [isNewBoard, setIsNewBoard] = useState<Boolean>(false);
   useEffect(() => {
     if (platform) {
       localStorage.setItem("platform", platform);
@@ -61,6 +59,8 @@ function App() {
         setIsTaskDelete,
         isBoardDelete,
         setIsBoardDelete,
+        isNewBoard,
+        setIsNewBoard,
       }}
     >
       <Helmet>
@@ -78,18 +78,21 @@ function App() {
         isEditTask={isEditTask}
         isTaskDelete={isTaskDelete}
         isBoardDelete={isBoardDelete}
+        isNewBoard={isNewBoard}
       />
       {(boardMenu ||
         isTaskDetails ||
         isAddTask ||
         isEditTask ||
         isTaskDelete ||
-        isBoardDelete) && (
+        isBoardDelete ||
+        isNewBoard) && (
         <BlackScreen
           onClick={() => {
             setBoardMenu(false);
             setIsTaskDetails(false);
             setIsAddTask(false);
+            setIsNewBoard(false);
           }}
         />
       )}

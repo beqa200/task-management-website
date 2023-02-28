@@ -45,7 +45,7 @@ export default function AddTask(props: { platformIndex: number }) {
       },
     ]);
   };
-
+console.log(errors);
   const onSubmit = (data: any) => {
     if (subTasks.every((obj: any) => obj.title !== "")) {
       const newTask: any = {
@@ -90,7 +90,7 @@ export default function AddTask(props: { platformIndex: number }) {
             })}
           />
           {errors.title?.message && (
-            <p style={{ left: "65%" }}>Can’t be empty</p>
+            <p style={{ left: "60%" }}>Can’t be empty</p>
           )}
         </div>
         <div className="input-div">
@@ -112,7 +112,7 @@ a little."
             }}
           >
             {subTasks.map((item) => {
-              item.id = (Math.random() * 100000).toFixed(8);
+              console.log(errors[`subtask${item.id}`]);
               {
                 return (
                   <div className="item">
@@ -258,7 +258,7 @@ export const AddTaskWrapper = styled.div<{
       font-size: 13px;
       line-height: 23px;
       color: #ea5555;
-      left: 55%;
+      left: 50%;
       bottom: 9px;
     }
   }
