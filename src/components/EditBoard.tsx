@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { MyContext } from "../App";
 import { deleteIcon } from "../assets";
@@ -15,7 +15,12 @@ import { ThemeType } from "../vite-env";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 
-export default function AddBoard(this: any) {
+export default function AddBoard(props: {
+  platformIndex: number;
+  task: any;
+  column: number;
+  taskIndex: number;
+}) {
   const context = useContext(MyContext);
 
   const COLORS = [
@@ -41,7 +46,7 @@ export default function AddBoard(this: any) {
     "#FF00FF",
   ];
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const {
     register,
     trigger,
@@ -52,37 +57,36 @@ const navigate = useNavigate();
     clearErrors,
   } = useForm<any>({ mode: "all" });
 
-  const [newBoard, setNewBoard] = useState({
-    name: "",
-    slug: "",
-    columns: [
-      {
-        name: "",
-        tasks: [],
-        id: (Math.random() * 100000).toFixed(0),
+  useEffect(() => {
+    console.log(context?.boards[props.platformIndex].columns);
+    setValue("name", context?.boards[props.platformIndex].name);
+    context?.boards[props.platformIndex].columns.map(
+      (item: any, index: number) => setValue(`column${item.id}`, item.name)
+    );
+  }, []);
 
-      },
-    ],
+  const [newBoard, setNewBoard] = useState({
+    name: context?.boards[props.platformIndex].name,
+    slug: context?.boards[props.platformIndex].slug,
+    columns: context?.boards[props.platformIndex].columns,
   });
 
   const addColumn = () => {
-    const clone = newBoard;
-    clone.columns.push({
+    const clone: any = newBoard;
+    clone?.columns.push({
       name: "",
       tasks: [],
       id: (Math.random() * 100000).toFixed(0),
     });
-    setNewBoard({...clone});
+    setNewBoard({ ...clone });
   };
-
   const onSubmit = (data: any) => {
     const clone: any = context?.boards;
-    clone.push(newBoard);
+    clone[props.platformIndex] = newBoard;
     context?.setBoards(clone);
-
-    context?.setIsNewBoard(false);
     context?.setPlatform(data.name)
     navigate(`/${newBoard.slug}`)
+    context?.setIsEditBoard(false);
   };
   return (
     <AddBoardWrapper theme={context?.theme} isDark={context?.isDark}>
@@ -101,57 +105,66 @@ const navigate = useNavigate();
               required: { value: true, message: "Can’t be empty" },
             })}
             onChange={(e) => {
-              const clone = {...newBoard};
+              const clone = { ...newBoard };
               clone.name = e.target.value;
               clone.slug = e.target.value.toLocaleLowerCase().replace(" ", "-");
               setNewBoard(clone);
             }}
           />
-          {errors.name?.message && <p style={{width: "96px", left: "60%"}}>Can’t be empty</p>}
+          {errors.name?.message && (
+            <p style={{ width: "96px", left: "60%" }}>Can’t be empty</p>
+          )}
         </div>
-          <div className="input-div">
-            <StyledLabel>Board Columns</StyledLabel>
-            <div
-              style={{
-                marginBottom: "12px",
-                maxHeight: "150px",
-                overflowY: "auto",
-              }}
-            >
-              {newBoard.columns.map((item: any, index) => {
-                item.color = COLORS[index];
-                {
-                    return ( <div className="item">
-                  <SubTaskInput
-                    style={
-                      errors[`column${item.id}`] != undefined
-                        ? { border: "1px solid #EA5555" }
-                        : { border: "" }
-                    }
-                    placeholder="e.g. Todo"
-                    {...register(`column${item.id}`, {
-                      required: { value: true, message: "Can’t be empty" },
-                    })}
-                    onChange={(e) => {
-                      const clone = newBoard;
-                      clone.columns[index].name = e.target.value;
-                      setNewBoard(clone);
-                    }}
-                  />
-                  <img src={deleteIcon} onClick={() => {
+        <div className="input-div">
+          <StyledLabel>Board Columns</StyledLabel>
+          <div
+            style={{
+              marginBottom: "12px",
+              maxHeight: "150px",
+              overflowY: "auto",
+            }}
+          >
+            {newBoard.columns?.map((item: any, index) => {
+              item.color = COLORS[index];
+
+              {
+                return (
+                  <div className="item">
+                    <SubTaskInput
+                      style={
+                        errors[`column${item.id}`] != undefined
+                          ? { border: "1px solid #EA5555" }
+                          : { border: "" }
+                      }
+                      placeholder="e.g. Todo"
+                      {...register(`column${item.id}`, {
+                        required: { value: true, message: "Can’t be empty" },
+                      })}
+                      onChange={(e) => {
+                        const clone = newBoard;
+                        if (clone?.columns) {
+                          clone.columns[index].name = e.target.value;
+                          setNewBoard(clone);
+                        }
+                      }}
+                    />
+                    <img src={deleteIcon} onClick={() => {
                         const clone: any = newBoard;
                         clone.columns.splice(index, 1);
                         setNewBoard({...clone});
                       }}/>
-                  {errors[`column${item.id}`]?.message && <p>Can’t be empty</p>}
-                </div>)}
-})}
-            </div>
+                    {errors[`column${item.id}`]?.message && (
+                      <p>Can’t be empty</p>
+                    )}
+                  </div>
+                );
+              }
+            })}
           </div>
-          <StyledWhiteButton className="addButon" onClick={addColumn}>
-            + Add New Column
-          </StyledWhiteButton>
-      
+        </div>
+        <StyledWhiteButton className="addButon" onClick={addColumn}>
+          + Add New Column
+        </StyledWhiteButton>
 
         <StyledButton
           style={{ height: "40px", width: "100%", marginTop: "24px" }}

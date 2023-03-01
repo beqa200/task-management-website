@@ -51,6 +51,9 @@ export default function TaskDetails(props: {
       props.taskIndex,
       1
     );
+    if (props.task) {
+      props.task.status = value;
+    }
     context?.setIsTaskDetails(false);
     context?.setBoards([...clone]);
   };

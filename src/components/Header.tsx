@@ -31,7 +31,9 @@ export default function Header() {
           <p
             className="edit"
             onClick={() => {
-              context?.setIsTaskDetails(false), context?.setIsEditTask(true);
+              context?.setIsTaskDetails(false);
+              context?.setIsEditBoard(true);
+              setIsMore(false);
             }}
           >
             Edit Board

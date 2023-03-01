@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
 import { MyContext } from "../App";
@@ -11,6 +11,7 @@ import { ThemeType } from "../vite-env";
 import TaskDelete from "../components/TaskDelete";
 import BoardDelete from "../components/BoardDelete";
 import AddBoard from "../components/AddBoard";
+import EditBoard from "../components/EditBoard";
 
 export default function Board() {
   const COLORS = [
@@ -52,7 +53,28 @@ export default function Board() {
       platformIndex = index;
     }
   });
-
+  useEffect(() => {
+    const clone = context?.boards;
+    clone?.[platformIndex].columns.map((item) => {
+      item.tasks.map((item2) => {
+        if (item.name != item2.status) {
+          clone[platformIndex].columns[
+            clone[platformIndex].columns.indexOf(item)
+          ].tasks.splice(
+            clone[platformIndex].columns[
+              clone[platformIndex].columns.indexOf(item)
+            ].tasks.indexOf(item2),
+            1
+          );
+          clone?.[platformIndex].columns
+            .find((item) => (item.name == item2.status))
+            ?.tasks.push(item2);
+        }
+      });
+      context?.setBoards([...clone]);
+      console.log(context?.boards);
+    });
+  }, [context?.isEditTask]);
   //set random color circles for each column
   platform?.columns?.map((item, index) => {
     item.color = COLORS[index];
@@ -87,6 +109,14 @@ export default function Board() {
         />
       )}
       {context?.isNewBoard && <AddBoard />}
+      {context?.isEditBoard && (
+        <EditBoard
+          platformIndex={platformIndex}
+          task={context.taskDetails}
+          column={column}
+          taskIndex={taskIndex}
+        />
+      )}
 
       {platform?.columns.length == 0 && (
         <div className="first-column">
@@ -96,42 +126,47 @@ export default function Board() {
       )}
 
       <div className="main">
-        {platform?.columns.map((column, index) => (
-          <div className="column" key={Math.random()}>
-            <div className="for-flex">
-              <StyledCircle
-                className="circle"
-                randomColor={column.color}
-              ></StyledCircle>
-              <h2>
-                {column.name} ({column.tasks.length})
-              </h2>
+        {platform?.columns.map((column: any, index) => {
+          column.id = (Math.random() * 100000).toFixed(0);
+          return (
+            <div className="column" key={Math.random()}>
+              <div className="for-flex">
+                <StyledCircle
+                  className="circle"
+                  randomColor={column.color}
+                ></StyledCircle>
+                <h2>
+                  {column.name} ({column.tasks.length})
+                </h2>
+              </div>
+              {column.tasks.map((task: any, index2: any) => {
+                return (
+                  <div
+                    key={Math.random()}
+                    className="task"
+                    onClick={() => {
+                      context?.setIsTaskDetails(true);
+                      context?.setTaskDetails(task);
+                      setColumn(index);
+                      setTaskIndex(index2);
+                    }}
+                  >
+                    <h3>{task.title}</h3>
+                    <p>
+                      {task.completed} of {task.subtasks.length} substasks
+                    </p>
+                  </div>
+                );
+              })}
             </div>
-            {column.tasks.map((task, index2) => {
-              return (
-                <div
-                  key={Math.random()}
-                  className="task"
-                  onClick={() => {
-                    context?.setIsTaskDetails(true);
-                    context?.setTaskDetails(task);
-                    setColumn(index);
-                    setTaskIndex(index2);
-                  }}
-                >
-                  <h3>{task.title}</h3>
-                  <p>
-                    {task.completed} of {task.subtasks.length} substasks
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        ))}
+          );
+        })}
 
-        <div className="add-column">
-          <h2>+ New Column</h2>
-        </div>
+        {context?.boards[platformIndex].columns.length != 0 && (
+          <div className="add-column">
+            <h2>+ New Column</h2>
+          </div>
+        )}
       </div>
       {context?.isTaskDetails && (
         <TaskDetails

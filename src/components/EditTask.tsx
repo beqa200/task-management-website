@@ -35,6 +35,7 @@ export default function EditTask(props: {
 
   console.log(watch("description"));
 
+  const [newTask, setNewTask] = useState(props.task);
   useEffect(() => {
     setValue("title", props.task?.title);
     setValue("description", props.task?.description);
@@ -50,22 +51,25 @@ export default function EditTask(props: {
   );
 
   const addSubTask = () => {
-    const clone: any = context?.boards;
-    clone?.[props.platformIndex].columns[props.column].tasks[
-      props.taskIndex
-    ].subtasks.push({
+    console.log(newTask);
+    const clone: any = newTask;
+    clone?.subtasks.push({
       title: "",
       isCompleted: false,
       id: (Math.random() * 100000).toFixed(0),
     });
-    context?.setBoards([...clone]);
+    setNewTask({ ...clone });
   };
+  console.log(newTask.status);
   const onSubmit = () => {
     if (props.task?.subtasks.every((obj: any) => obj.title !== "")) {
       const clone: any = context?.boards;
-      clone[props.platformIndex].columns[props.column].tasks[props.taskIndex].title = watch("title");
-      clone[props.platformIndex].columns[props.column].tasks[props.taskIndex].description = watch("description");
-      context?.setBoards(clone);
+      if (clone) {
+        clone[props.platformIndex].columns[props.column].tasks[
+          props.taskIndex
+        ] = newTask;
+      }
+      context?.setBoards([...clone]);
       context?.setIsEditTask(false);
     }
   };
@@ -88,6 +92,11 @@ export default function EditTask(props: {
             {...register("title", {
               required: { value: true, message: "Can’t be empty" },
             })}
+            onChange={(e) => {
+              const clone = { ...newTask };
+              clone.title = e.target.value;
+              setNewTask(clone);
+            }}
           />
           {errors.title?.message && (
             <p style={{ left: "60%" }}>Can’t be empty</p>
@@ -99,8 +108,12 @@ export default function EditTask(props: {
             placeholder="e.g. It’s always good to take a break. This 
 15 minute break will  recharge the batteries 
 a little."
-  
             {...register("description")}
+            onChange={(e) => {
+              const clone = { ...newTask };
+              clone.description = e.target.value;
+              setNewTask(clone);
+            }}
           />
         </div>
         <div className="input-div">
@@ -112,7 +125,7 @@ a little."
               overflowY: "auto",
             }}
           >
-            {props.task?.subtasks.map((item: any, index: number) => {
+            {newTask.subtasks.map((item: any, index: number) => {
               {
                 return (
                   <div className="item">
@@ -127,24 +140,18 @@ a little."
                         required: { value: true, message: "Can’t be empty" },
                       })}
                       onChange={(e) => {
-                        const clone: any = context?.boards;
-                        clone[props.platformIndex].columns[props.column].tasks[
-                          clone?.[props.platformIndex].columns[
-                            props.column
-                          ].tasks.indexOf(props.task)
-                        ].subtasks[index].title = e.target.value;
-                        context?.setBoards([...clone]);
+                        const clone = { ...newTask };
+                        clone.subtasks[index].title = e.target.value;
+                        setNewTask(clone);
                         clearErrors(`subtask${item.id}`);
                       }}
                     />
                     <img
                       src={deleteIcon}
                       onClick={() => {
-                        const clone: any = context?.boards;
-                        clone[props.platformIndex].columns[props.column].tasks[
-                          props.taskIndex
-                        ].subtasks.splice(index, 1);
-                        context?.setBoards([...clone]);
+                        const clone: any = newTask;
+                        clone.subtasks.splice(index, 1);
+                        setNewTask({ ...clone });
                       }}
                     />
                     {errors[`subtask${item.id}`]?.message && (
@@ -160,7 +167,12 @@ a little."
           </StyledWhiteButton>
         </div>
         <div className="input-div">
-          <SelectInput {...register("status")}>
+          <SelectInput
+            {...register("status")}
+            onChange={(e) => {
+              newTask.status = e.target.value;
+            }}
+          >
             {context?.boards[props.platformIndex].columns.map((column) => (
               <option value={column.name}>{column.name}</option>
             ))}

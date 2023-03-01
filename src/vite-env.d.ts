@@ -24,6 +24,8 @@ export interface ContextProps {
   setIsBoardDelete: (isBoardDelete: Boolean) => void;
   isNewBoard: Boolean;
   setIsNewBoard: (isNewBoard: Boolean) => void;
+  isEditBoard: Boolean;
+  setIsEditBoard: (isEditBoard: Boolean) => void;
 }
 
 interface Task {
