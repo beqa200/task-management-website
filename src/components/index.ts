@@ -1,1 +1,9 @@
 export { default as Header } from "./Header";
+export { default as AddBoard } from "./AddBoard";
+export { default as AddTask } from "./AddTask";
+export { default as BoardDelete } from "./BoardDelete";
+export { default as BoardMenu } from "./BoardMenu";
+export { default as EditBoard } from "./EditBoard";
+export { default as EditTask } from "./EditTask";
+export { default as TaskDelete } from "./TaskDelete";
+export { default as TaskDetails } from "./TaskDetails";

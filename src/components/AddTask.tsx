@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
-import styled from "styled-components";
 import { MyContext } from "../App";
 import { deleteIcon } from "../assets";
 import {
   DescriptionInput,
+  FormWrapper,
   SelectInput,
   StyledButton,
   StyledLabel,
@@ -11,7 +11,6 @@ import {
   SubTaskInput,
   TitleInput,
 } from "../styled-components";
-import { ThemeType } from "../vite-env";
 import { useForm } from "react-hook-form";
 
 export default function AddTask(props: { platformIndex: number }) {
@@ -19,15 +18,10 @@ export default function AddTask(props: { platformIndex: number }) {
 
   const {
     register,
-    trigger,
-    setValue,
     handleSubmit,
-    watch,
     formState: { errors },
     clearErrors,
   } = useForm<any>({ mode: "all" });
-
-  console.log(watch("description"));
 
   const [subTasks, setSubTasks] = useState([
     { title: "", isCompleted: false, id: (Math.random() * 100000).toFixed(0) },
@@ -45,7 +39,6 @@ export default function AddTask(props: { platformIndex: number }) {
       },
     ]);
   };
-console.log(errors);
   const onSubmit = (data: any) => {
     if (subTasks.every((obj: any) => obj.title !== "")) {
       const newTask: any = {
@@ -73,7 +66,7 @@ console.log(errors);
   };
 
   return (
-    <AddTaskWrapper theme={context?.theme} isDark={context?.isDark}>
+    <FormWrapper theme={context?.theme} isDark={context?.isDark}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1>Add New Task</h1>
         <div className="input-div">
@@ -112,10 +105,9 @@ a little."
             }}
           >
             {subTasks.map((item) => {
-              console.log(errors[`subtask${item.id}`]);
               {
                 return (
-                  <div className="item">
+                  <div className="item" key={Math.random()}>
                     <SubTaskInput
                       placeholder="e.g. Make coffee"
                       value={item.title}
@@ -150,14 +142,16 @@ a little."
               }
             })}
           </div>
-          <StyledWhiteButton className="addButon" onClick={addSubTask}>
+          <StyledWhiteButton className="addButton" onClick={addSubTask}>
             + Add New Subtask
           </StyledWhiteButton>
         </div>
         <div className="input-div">
           <SelectInput {...register("status")}>
             {context?.boards[props.platformIndex].columns.map((column) => (
-              <option value={column.name}>{column.name}</option>
+              <option value={column.name} key={Math.random()}>
+                {column.name}
+              </option>
             ))}
           </SelectInput>
         </div>
@@ -168,98 +162,6 @@ a little."
           Create Task
         </StyledButton>
       </form>
-    </AddTaskWrapper>
+    </FormWrapper>
   );
 }
-
-export const AddTaskWrapper = styled.div<{
-  isDark: Boolean | undefined;
-  theme: ThemeType;
-}>`
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: ${(props) =>
-    props.isDark == true ? props.theme.dark.darkGrey : props.theme.light.white};
-  width: calc(90% - 48px);
-  max-width: 416px;
-  padding: 24px 24px 32px 24px;
-  border-radius: 6px;
-
-  h1 {
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 23px;
-    width: 95%;
-    color: ${(props) =>
-      props.isDark == true ? props.theme.dark.white : props.theme.light.black};
-  }
-
-  input,
-  textarea {
-    color: ${(props) =>
-      props.isDark == true ? props.theme.light.white : props.theme.light.black};
-    margin-top: 8px;
-  }
-
-  .input-div {
-    display: flex;
-    flex-direction: column;
-    margin-top: 24px;
-    position: relative;
-    label {
-      color: ${(props) =>
-        props.isDark == true
-          ? props.theme.light.white
-          : props.theme.light.black};
-    }
-
-    .item {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      align-items: center;
-      position: relative;
-      img {
-        object-fit: none;
-        margin-top: 8px;
-      }
-    }
-
-    .addButon {
-      background-color: ${(props) =>
-        props.isDark == true
-          ? props.theme.light.white
-          : "rgba(99, 95, 199, 0.1)"};
-    }
-
-    select {
-      color: ${(props) =>
-        props.isDark == true
-          ? props.theme.light.white
-          : props.theme.light.black};
-      option {
-        background-color: ${(props) =>
-          props.isDark == true
-            ? props.theme.dark.veryDarkGrey
-            : props.theme.light.lightGrey};
-        color: ${(props) =>
-          props.isDark == true
-            ? props.theme.light.white
-            : props.theme.light.black};
-      }
-    }
-
-    p {
-      position: absolute;
-      font-weight: 500;
-      font-size: 13px;
-      line-height: 23px;
-      color: #ea5555;
-      left: 50%;
-      bottom: 9px;
-    }
-  }
-`;

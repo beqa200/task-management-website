@@ -44,22 +44,22 @@ const StyledLabel = styled.label`
 `;
 
 const SelectInput = styled.select`
-margin-top: 8px;
-      padding: 8px 16px;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background-image: url(${arrowDown});
-      background-repeat: no-repeat;
-      background-position: right 15px center;
-      border: 1px solid rgba(130, 143, 163, 0.25);
-      border-radius: 4px;
-      background-color: transparent;
-      
-      &:focus {
-        border-color: #635fc7;
-        outline: none;
-      }
-`
+  margin-top: 8px;
+  padding: 8px 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url(${arrowDown});
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  border: 1px solid rgba(130, 143, 163, 0.25);
+  border-radius: 4px;
+  background-color: transparent;
+
+  &:focus {
+    border-color: #635fc7;
+    outline: none;
+  }
+`;
 
 export { TitleInput, DescriptionInput, SubTaskInput, StyledLabel, SelectInput };

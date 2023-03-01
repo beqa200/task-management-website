@@ -7,9 +7,33 @@ import data from "./data.json";
 import Board from "./pages/Board";
 import { ContextProps, Platform, Task } from "./vite-env";
 import Add from "./pages/Add";
-import BoardMenu from "./components/BoardMenu";
 
 export const MyContext = createContext<ContextProps | null>(null);
+
+const COLORS = [
+  "#49C4E5",
+  "#8471F2",
+  "#67E2AE",
+  "#FF8C00",
+  "#4B0082",
+  "#FF1493",
+  "#DAA520",
+  "#00FA9A",
+  "#FF6347",
+  "#00BFFF",
+  "#8B0000",
+  "#6A5ACD",
+  "#2E8B57",
+  "#FFD700",
+  "#F08080",
+  "#778899",
+  "#B22222",
+  "#008080",
+  "#FFA07A",
+  "#FF00FF",
+];
+
+export { COLORS };
 
 function App() {
   //global states
@@ -27,6 +51,7 @@ function App() {
   const [isBoardDelete, setIsBoardDelete] = useState<Boolean>(false);
   const [isNewBoard, setIsNewBoard] = useState<Boolean>(false);
   const [isEditBoard, setIsEditBoard] = useState<Boolean>(false);
+
   useEffect(() => {
     if (platform) {
       localStorage.setItem("platform", platform);
@@ -35,7 +60,6 @@ function App() {
     }
   }, [platform]);
 
-  console.log(boards);
   return (
     <MyContext.Provider
       value={{

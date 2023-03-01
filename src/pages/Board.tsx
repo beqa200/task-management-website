@@ -1,42 +1,21 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
-import { MyContext } from "../App";
-import AddTask from "../components/AddTask";
-import BoardMenu from "../components/BoardMenu";
-import EditTask from "../components/EditTask";
-import TaskDetails from "../components/TaskDetails";
-import { BlackScreen, StyledButton, theme } from "../styled-components";
+import { COLORS, MyContext } from "../App";
+import {
+  AddBoard,
+  AddTask,
+  BoardDelete,
+  BoardMenu,
+  EditBoard,
+  EditTask,
+  TaskDelete,
+  TaskDetails,
+} from "../components";
+import { StyledButton, theme } from "../styled-components";
 import { ThemeType } from "../vite-env";
-import TaskDelete from "../components/TaskDelete";
-import BoardDelete from "../components/BoardDelete";
-import AddBoard from "../components/AddBoard";
-import EditBoard from "../components/EditBoard";
 
 export default function Board() {
-  const COLORS = [
-    "#49C4E5",
-    "#8471F2",
-    "#67E2AE",
-    "#FF8C00",
-    "#4B0082",
-    "#FF1493",
-    "#DAA520",
-    "#00FA9A",
-    "#FF6347",
-    "#00BFFF",
-    "#8B0000",
-    "#6A5ACD",
-    "#2E8B57",
-    "#FFD700",
-    "#F08080",
-    "#778899",
-    "#B22222",
-    "#008080",
-    "#FFA07A",
-    "#FF00FF",
-  ];
-
   const [column, setColumn] = useState<number>(0);
   const [taskIndex, setTaskIndex] = useState<number>(0);
   const context = useContext(MyContext);
@@ -67,12 +46,11 @@ export default function Board() {
             1
           );
           clone?.[platformIndex].columns
-            .find((item) => (item.name == item2.status))
+            .find((item) => item.name == item2.status)
             ?.tasks.push(item2);
         }
       });
       context?.setBoards([...clone]);
-      console.log(context?.boards);
     });
   }, [context?.isEditTask]);
   //set random color circles for each column
@@ -87,7 +65,6 @@ export default function Board() {
       });
     });
   });
-  console.log(context?.boards);
   return (
     <BoardWrapper isDark={context?.isDark} theme={context?.theme}>
       {context?.boardMenu && <BoardMenu />}
@@ -121,7 +98,13 @@ export default function Board() {
       {platform?.columns.length == 0 && (
         <div className="first-column">
           <h2>This board is empty. Create a new column to get started.</h2>
-          <StyledButton>+ Add New Column</StyledButton>
+          <StyledButton
+            onClick={() => {
+              context?.setIsEditBoard(true);
+            }}
+          >
+            + Add New Column
+          </StyledButton>
         </div>
       )}
 
@@ -163,7 +146,12 @@ export default function Board() {
         })}
 
         {context?.boards[platformIndex].columns.length != 0 && (
-          <div className="add-column">
+          <div
+            className="add-column"
+            onClick={() => {
+              context?.setIsEditBoard(true);
+            }}
+          >
             <h2>+ New Column</h2>
           </div>
         )}

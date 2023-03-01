@@ -33,7 +33,6 @@ const StyledRedButton = styled(StyledButton)`
   display: block;
   width: 100%;
   height: 40px;
-
 `;
 
 export { StyledButton, StyledWhiteButton, StyledRedButton };

@@ -4,13 +4,11 @@ import { MyContext } from "../App";
 import { StyledButton, theme } from "../styled-components";
 import { arrowDown, add, logoMobile, verticalEllipsis } from "../assets";
 import { ContextProps } from "../vite-env";
-import { useParams } from "react-router";
 
 export default function Header() {
   const context = useContext<ContextProps | null>(MyContext);
   const [isMore, setIsMore] = useState(false);
-  const params = useParams();
-  const platform = context?.boards?.find(
+  const platform: any = context?.boards?.find(
     (item) => item.name == context.platform
   );
 
@@ -20,11 +18,13 @@ export default function Header() {
       context?.setPlatform(storedPlatform);
     }
   }, []);
+
   return (
     <HeaderWrapper
       boardMenu={context?.boardMenu}
       isDark={context?.isDark}
       columnLength={platform?.columns.length}
+      boardLength={context?.boards.length}
     >
       {isMore && (
         <div className="more">
@@ -76,7 +76,12 @@ export default function Header() {
       <div className="wrapper">
         <StyledButton
           onClick={() => {
-            if (context?.boards && context?.boards.length > 0) {
+            if (
+              context?.boards &&
+              (context?.boards[context?.boards.indexOf(platform)].columns
+                .length > 0 ||
+                context.boards.length > 0)
+            ) {
               context?.setIsAddTask(true);
               context?.setBoardMenu(false);
               context?.setIsTaskDetails(false);
@@ -104,6 +109,7 @@ const HeaderWrapper = styled.header<{
   boardMenu: Boolean | undefined;
   isDark: Boolean | undefined;
   columnLength: number | undefined;
+  boardLength: number | undefined;
 }>`
   background-color: ${(props) =>
     props.isDark == true ? theme.dark.darkGrey : theme.light.white};
@@ -157,7 +163,8 @@ const HeaderWrapper = styled.header<{
 
   button {
     margin-right: 16px;
-    opacity: ${(props) => (props.columnLength == 0 ? "0.5" : "1")};
+    opacity: ${(props) =>
+      props.columnLength == 0 || props.boardLength == 0 ? "0.5" : "1"};
   }
 
   h1 {

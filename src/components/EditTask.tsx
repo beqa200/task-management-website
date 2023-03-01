@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
 import { MyContext } from "../App";
 import { deleteIcon } from "../assets";
 import {
   DescriptionInput,
+  FormWrapper,
   SelectInput,
   StyledButton,
   StyledLabel,
@@ -11,9 +11,7 @@ import {
   SubTaskInput,
   TitleInput,
 } from "../styled-components";
-import { Task, ThemeType } from "../vite-env";
 import { useForm } from "react-hook-form";
-import { AddTaskWrapper } from "./AddTask";
 
 export default function EditTask(props: {
   platformIndex: number;
@@ -33,8 +31,6 @@ export default function EditTask(props: {
     clearErrors,
   } = useForm<any>({ mode: "all" });
 
-  console.log(watch("description"));
-
   const [newTask, setNewTask] = useState(props.task);
   useEffect(() => {
     setValue("title", props.task?.title);
@@ -44,14 +40,8 @@ export default function EditTask(props: {
     );
     setValue("status", props.task?.status);
   }, []);
-  console.log(
-    context?.boards[props.platformIndex].columns[props.column].tasks[
-      props.taskIndex
-    ].subtasks
-  );
 
   const addSubTask = () => {
-    console.log(newTask);
     const clone: any = newTask;
     clone?.subtasks.push({
       title: "",
@@ -60,7 +50,6 @@ export default function EditTask(props: {
     });
     setNewTask({ ...clone });
   };
-  console.log(newTask.status);
   const onSubmit = () => {
     if (props.task?.subtasks.every((obj: any) => obj.title !== "")) {
       const clone: any = context?.boards;
@@ -74,10 +63,8 @@ export default function EditTask(props: {
     }
   };
 
-  console.log(errors);
-
   return (
-    <AddTaskWrapper theme={context?.theme} isDark={context?.isDark}>
+    <FormWrapper theme={context?.theme} isDark={context?.isDark}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1>Edit Task</h1>
         <div className="input-div">
@@ -128,7 +115,7 @@ a little."
             {newTask.subtasks.map((item: any, index: number) => {
               {
                 return (
-                  <div className="item">
+                  <div className="item" key={Math.random()}>
                     <SubTaskInput
                       placeholder="e.g. Make coffee"
                       style={
@@ -162,7 +149,7 @@ a little."
               }
             })}
           </div>
-          <StyledWhiteButton className="addButon" onClick={addSubTask}>
+          <StyledWhiteButton className="addButton" onClick={addSubTask}>
             + Add New Subtask
           </StyledWhiteButton>
         </div>
@@ -174,7 +161,9 @@ a little."
             }}
           >
             {context?.boards[props.platformIndex].columns.map((column) => (
-              <option value={column.name}>{column.name}</option>
+              <option value={column.name} key={Math.random()}>
+                {column.name}
+              </option>
             ))}
           </SelectInput>
         </div>
@@ -182,9 +171,9 @@ a little."
           style={{ height: "40px", width: "100%", marginTop: "24px" }}
           type="submit"
         >
-          Create Task
+          Save Changes
         </StyledButton>
       </form>
-    </AddTaskWrapper>
+    </FormWrapper>
   );
 }

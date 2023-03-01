@@ -1,10 +1,9 @@
 import React, { useContext, useState } from "react";
-import styled, { ThemeProps } from "styled-components";
+import styled from "styled-components";
 import { MyContext } from "../App";
-import { arrowDown, verticalEllipsis } from "../assets";
+import { verticalEllipsis } from "../assets";
 import { SelectInput, StyledLabel, theme } from "../styled-components";
-import { ContextProps, SubTask, Task, ThemeType } from "../vite-env";
-import Delete from "./TaskDelete";
+import { Task, ThemeType } from "../vite-env";
 
 export default function TaskDetails(props: {
   task: Task | undefined;
@@ -45,7 +44,6 @@ export default function TaskDetails(props: {
     const newColumn = clone[props.platformIndex].columns.find(
       (column: any) => column.name == value
     );
-    console.log(newColumn);
     newColumn.tasks.push(props.task);
     clone[props.platformIndex].columns[props.column].tasks.splice(
       props.taskIndex,
@@ -113,7 +111,7 @@ export default function TaskDetails(props: {
           {props.task?.subtasks.map((task: any) => {
             task.id = (Math.random() * 100000).toFixed(0);
             return (
-              <div>
+              <div key={Math.random()}>
                 <input
                   type="checkbox"
                   value={task.id}
@@ -142,7 +140,9 @@ export default function TaskDetails(props: {
             }
           >
             {context?.boards[props.platformIndex].columns.map((column) => (
-              <option value={column.name}>{column.name}</option>
+              <option value={column.name} key={Math.random()}>
+                {column.name}
+              </option>
             ))}
           </SelectInput>
         </div>

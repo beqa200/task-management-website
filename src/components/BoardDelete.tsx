@@ -1,13 +1,11 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import { MyContext } from "../App";
 import {
+  DeleteWrapper,
   StyledRedButton,
   StyledWhiteButton,
-  theme,
 } from "../styled-components";
-import { DeleteWrapper } from "./TaskDelete";
 
 export default function Delete(props: {
   platformName: string;
@@ -18,7 +16,6 @@ export default function Delete(props: {
   const platform: any = context?.boards?.find(
     (item) => item.name == context.platform
   );
-  console.log(props.platformIndex);
   const deleteBoard = () => {
     if (context?.boards[context?.boards.indexOf(platform) - 1]) {
       navigate(`/${context.boards[context.boards.indexOf(platform) - 1].slug}`);
@@ -42,10 +39,10 @@ export default function Delete(props: {
   };
   return (
     <DeleteWrapper isDark={context?.isDark}>
-      <h1>Delete this task?</h1>
+      <h1>Delete this board?</h1>
       <p>
-        Are you sure you want to delete the ‘{props.platformName}’ task and its
-        subtasks? This action cannot be reversed.
+        Are you sure you want to delete the ‘{props.platformName}’ board? This
+        action will remove all columns and tasks and cannot be reversed.
       </p>
       <StyledRedButton className="delete" onClick={deleteBoard}>
         Delete
