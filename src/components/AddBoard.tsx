@@ -20,7 +20,6 @@ export default function AddBoard() {
     register,
     handleSubmit,
     formState: { errors },
-    clearErrors,
   } = useForm<any>({ mode: "all" });
 
   const [newBoard, setNewBoard] = useState({
@@ -71,7 +70,6 @@ export default function AddBoard() {
               required: { value: true, message: "Can’t be empty" },
             })}
             onChange={(e) => {
-              clearErrors("name");
               const clone = { ...newBoard };
               clone.name = e.target.value;
               clone.slug = e.target.value.toLocaleLowerCase().replace(" ", "-");
@@ -107,7 +105,6 @@ export default function AddBoard() {
                         required: { value: true, message: "Can’t be empty" },
                       })}
                       onChange={(e) => {
-                        clearErrors(`column${item.id}`);
                         const clone = newBoard;
                         clone.columns[index].name = e.target.value;
                         setNewBoard(clone);

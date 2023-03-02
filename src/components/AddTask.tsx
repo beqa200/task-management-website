@@ -20,7 +20,6 @@ export default function AddTask(props: { platformIndex: number }) {
     register,
     handleSubmit,
     formState: { errors },
-    clearErrors,
   } = useForm<any>({ mode: "all" });
 
   const [subTasks, setSubTasks] = useState([
@@ -110,7 +109,6 @@ a little."
                   <div className="item" key={Math.random()}>
                     <SubTaskInput
                       placeholder="e.g. Make coffee"
-                      value={item.title}
                       style={
                         errors[`subtask${item.id}`] != undefined
                           ? { border: "1px solid #EA5555" }
@@ -120,10 +118,7 @@ a little."
                         required: { value: true, message: "Can’t be empty" },
                       })}
                       onChange={(e) => {
-                        const clone = [...subTasks];
-                        clone[clone.indexOf(item)].title = e.target.value;
-                        setSubTasks(clone);
-                        clearErrors(`subtask${item.id}`);
+                        subTasks[subTasks.indexOf(item)].title = e.target.value;
                       }}
                     />
                     <img

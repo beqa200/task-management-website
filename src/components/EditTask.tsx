@@ -23,10 +23,8 @@ export default function EditTask(props: {
 
   const {
     register,
-    trigger,
     setValue,
     handleSubmit,
-    watch,
     formState: { errors },
     clearErrors,
   } = useForm<any>({ mode: "all" });
@@ -83,6 +81,7 @@ export default function EditTask(props: {
               const clone = { ...newTask };
               clone.title = e.target.value;
               setNewTask(clone);
+              clearErrors("title")
             }}
           />
           {errors.title?.message && (
@@ -127,10 +126,7 @@ a little."
                         required: { value: true, message: "Can’t be empty" },
                       })}
                       onChange={(e) => {
-                        const clone = { ...newTask };
-                        clone.subtasks[index].title = e.target.value;
-                        setNewTask(clone);
-                        clearErrors(`subtask${item.id}`);
+                        newTask.subtasks[index].title = e.target.value;
                       }}
                     />
                     <img

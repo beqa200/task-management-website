@@ -113,11 +113,8 @@ export default function AddBoard(props: {
                         required: { value: true, message: "Can’t be empty" },
                       })}
                       onChange={(e) => {
-                        const clone = newBoard;
-                        if (clone?.columns) {
-                          clone.columns[index].name = e.target.value;
-                          setNewBoard(clone);
-                          clearErrors(`column${item.id}`);
+                        if (newBoard?.columns) {
+                          newBoard.columns[index].name = e.target.value;
                         }
                       }}
                     />
