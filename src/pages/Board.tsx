@@ -66,7 +66,13 @@ export default function Board() {
     });
   });
   return (
-    <BoardWrapper isDark={context?.isDark} theme={context?.theme}>
+    <BoardWrapper
+      isDark={context?.isDark}
+      theme={context?.theme}
+      onClick={() => {
+        context?.setIsMore(false);
+      }}
+    >
       {context?.boardMenu && <BoardMenu />}
       {context?.isAddTask && <AddTask platformIndex={platformIndex} />}
       {context?.isEditTask && (

@@ -55,6 +55,7 @@ export default function AddBoard(props: {
     const clone: any = context?.boards;
     clone[props.platformIndex] = newBoard;
     context?.setBoards(clone);
+    localStorage.setItem("storedBoards", JSON.stringify(clone));
     context?.setPlatform(data.name);
     navigate(`/${newBoard.slug}`);
     context?.setIsEditBoard(false);

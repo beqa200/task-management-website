@@ -51,7 +51,7 @@ function App() {
   const [isBoardDelete, setIsBoardDelete] = useState<Boolean>(false);
   const [isNewBoard, setIsNewBoard] = useState<Boolean>(false);
   const [isEditBoard, setIsEditBoard] = useState<Boolean>(false);
-
+  const [isMore, setIsMore] = useState<Boolean>(false);
   useEffect(() => {
     if (platform) {
       localStorage.setItem("platform", platform);
@@ -60,6 +60,17 @@ function App() {
     }
   }, [platform]);
 
+  useEffect(() => {
+    const storedBoards = localStorage.getItem("storedBoards");
+    const storedTheme = localStorage.getItem("theme");
+    if (storedBoards) {
+      setBoards(JSON.parse(storedBoards));
+    }
+    if (storedTheme) {
+      setIsDark(JSON.parse(storedTheme));
+    }
+  }, []);
+  console.log;
   return (
     <MyContext.Provider
       value={{
@@ -88,6 +99,8 @@ function App() {
         setIsNewBoard,
         isEditBoard,
         setIsEditBoard,
+        isMore,
+        setIsMore,
       }}
     >
       <Helmet>

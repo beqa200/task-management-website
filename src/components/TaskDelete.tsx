@@ -28,6 +28,7 @@ export default function Delete(props: {
             props.taskIndex,
             1
           );
+          localStorage.setItem("storedBoards", JSON.stringify(clone));
           context?.setBoards(clone);
           context?.setIsTaskDetails(false);
           context?.setIsTaskDelete(false);

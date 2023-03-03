@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { MyContext } from "../App";
@@ -53,6 +53,7 @@ export default function BoardMenu() {
           className="switcher"
           onClick={() => {
             context?.setIsDark(!context.isDark);
+            localStorage.setItem("theme", JSON.stringify(!context?.isDark));
           }}
         >
           <div></div>

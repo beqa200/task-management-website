@@ -56,6 +56,7 @@ export default function EditTask(props: {
           props.taskIndex
         ] = newTask;
       }
+      localStorage.setItem("storedBoards", JSON.stringify(clone));
       context?.setBoards([...clone]);
       context?.setIsEditTask(false);
     }
@@ -81,7 +82,7 @@ export default function EditTask(props: {
               const clone = { ...newTask };
               clone.title = e.target.value;
               setNewTask(clone);
-              clearErrors("title")
+              clearErrors("title");
             }}
           />
           {errors.title?.message && (

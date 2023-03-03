@@ -7,7 +7,7 @@ import { ContextProps } from "../vite-env";
 
 export default function Header() {
   const context = useContext<ContextProps | null>(MyContext);
-  const [isMore, setIsMore] = useState(false);
+  
   const platform: any = context?.boards?.find(
     (item) => item.name == context.platform
   );
@@ -26,14 +26,14 @@ export default function Header() {
       columnLength={platform?.columns.length}
       boardLength={context?.boards.length}
     >
-      {isMore && (
+      {context?.isMore && (
         <div className="more">
           <p
             className="edit"
             onClick={() => {
               context?.setIsTaskDetails(false);
               context?.setIsEditBoard(true);
-              setIsMore(false);
+              context?.setIsMore(false);
             }}
           >
             Edit Board
@@ -42,7 +42,7 @@ export default function Header() {
             className="delete"
             onClick={() => {
               context?.setIsBoardDelete(true);
-              setIsMore(false);
+              context?.setIsMore(false);
             }}
           >
             Delete Board
@@ -56,7 +56,7 @@ export default function Header() {
             context?.setBoardMenu(!context.boardMenu);
             context?.setIsTaskDetails(false);
             context?.setIsAddTask(false);
-            setIsMore(false);
+            context?.setIsMore(false);
           }}
         >
           {context?.platform}
@@ -68,7 +68,7 @@ export default function Header() {
             context?.setBoardMenu(!context.boardMenu);
             context?.setIsTaskDetails(false);
             context?.setIsAddTask(false);
-            setIsMore(false);
+            context?.setIsMore(false);
           }}
         />
       </div>
@@ -85,7 +85,7 @@ export default function Header() {
               context?.setIsAddTask(true);
               context?.setBoardMenu(false);
               context?.setIsTaskDetails(false);
-              setIsMore(false);
+              context?.setIsMore(false);
             }
           }}
         >
@@ -96,7 +96,7 @@ export default function Header() {
           src={verticalEllipsis}
           onClick={() => {
             if (context?.boards && context?.boards.length > 0) {
-              setIsMore(!isMore);
+              context?.setIsMore(!context?.isMore);
             }
           }}
         />

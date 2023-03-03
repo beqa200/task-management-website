@@ -35,6 +35,8 @@ export default function Delete(props: {
     const clone: any = context?.boards;
     clone.splice(props.platformIndex, 1);
     context?.setBoards(clone);
+    localStorage.setItem("storedBoards", JSON.stringify(clone));
+
     context?.setIsBoardDelete(false);
   };
   return (

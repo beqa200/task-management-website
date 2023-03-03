@@ -57,7 +57,7 @@ export default function AddTask(props: { platformIndex: number }) {
       bigClone?.[props.platformIndex].columns
         .find((item: any) => item.name == data.status)
         ?.tasks.push(newTask);
-
+      localStorage.setItem("storedBoards", JSON.stringify(bigClone));
       context?.setBoards(bigClone);
 
       context?.setIsAddTask(false);

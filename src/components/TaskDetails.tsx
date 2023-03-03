@@ -53,6 +53,7 @@ export default function TaskDetails(props: {
       props.task.status = value;
     }
     context?.setIsTaskDetails(false);
+    localStorage.setItem("storedBoards", JSON.stringify(clone));
     context?.setBoards([...clone]);
   };
 
@@ -155,7 +156,7 @@ const TaskDetailsWrapper = styled.div<{
   isDark: Boolean | undefined;
   theme: ThemeType;
 }>`
-  position: absolute;
+  position: fixed;
   z-index: 2;
   top: 50%;
   left: 50%;
@@ -163,7 +164,7 @@ const TaskDetailsWrapper = styled.div<{
   background-color: ${(props) =>
     props.isDark == true ? theme.dark.darkGrey : theme.light.white};
   width: calc(90% - 48px);
-  max-width: 416px;
+  max-width: 432px;
   padding: 24px 24px 32px 24px;
   border-radius: 6px;
 
