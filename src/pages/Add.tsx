@@ -28,7 +28,9 @@ const AddWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: calc(100% - 280px);
+  @media (min-width: 768px) {
+    width: calc(100% - 280px);
+  }
   margin-left: auto;
   h1 {
     text-align: center;
