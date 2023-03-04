@@ -73,7 +73,7 @@ export default function AddBoard() {
   return (
     <FormWrapper theme={context?.theme} isDark={context?.isDark}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h1>Add New Board</h1>
+        <h1 className="heading">Add New Board</h1>
         <div className="input-div">
           <StyledLabel>Board Name</StyledLabel>
           <TitleInput

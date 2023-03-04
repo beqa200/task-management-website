@@ -17,7 +17,7 @@ const FormWrapper = styled.div<{
   padding: 24px 24px 32px 24px;
   border-radius: 6px;
 
-  h1 {
+  .heading {
     font-weight: 700;
     font-size: 18px;
     line-height: 23px;

@@ -7,33 +7,37 @@ import { AddBoard, BoardMenu } from "../components";
 export default function Add() {
   const navigate = useNavigate();
   const context = useContext(MyContext);
-
-  useEffect(() => {
-    if (context?.boards?.length != 0) {
-      navigate("/" + context?.boards?.[0].slug);
-    }
-  }, [context?.boards?.length]);
+  console.log(context?.boards.length);
+  // useEffect(() => {
+  //   if (context?.boards?.length != 0) {
+  //     navigate("/" + context?.boards?.[0].slug);
+  //   }
+  // }, [context?.boards?.length]);
 
   return (
-    <AddWrapper>
+    <AddWrapper boardMenu={context?.boardMenu}>
       {context?.isNewBoard && <AddBoard />}
       {context?.boardMenu && <BoardMenu />}
-      <h1>Please Add Platform</h1>
+      <h1 className="add">{context?.boards.length == 0 ? "Please Add Platform" : "Please Choose Platform"}</h1>
     </AddWrapper>
   );
 }
 
-const AddWrapper = styled.div`
+const AddWrapper = styled.div<{ boardMenu: Boolean | undefined }>`
   height: calc(100vh - 64px);
   display: flex;
   justify-content: center;
   align-items: center;
-  @media (min-width: 768px) {
-    width: calc(100% - 280px);
-  }
+ 
   margin-left: auto;
-  h1 {
+  .add {
     text-align: center;
     color: #828fa3;
+    position: absolute;
+    top: 50%;
+    @media (min-width: 768px) {
+      transition: 1s;
+    left: ${(props) => (props.boardMenu ? "calc(50% - 60px)" : "calc(50% - 150px)")};
+  }
   }
 `;

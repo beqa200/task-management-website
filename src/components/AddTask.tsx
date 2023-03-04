@@ -67,7 +67,7 @@ export default function AddTask(props: { platformIndex: number }) {
   return (
     <FormWrapper theme={context?.theme} isDark={context?.isDark}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h1>Add New Task</h1>
+        <h1 className="heading">Add New Task</h1>
         <div className="input-div">
           <StyledLabel>Title</StyledLabel>
           <TitleInput

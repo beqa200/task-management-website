@@ -65,7 +65,7 @@ export default function EditTask(props: {
   return (
     <FormWrapper theme={context?.theme} isDark={context?.isDark}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h1>Edit Task</h1>
+        <h1 className="heading">Edit Task</h1>
         <div className="input-div">
           <StyledLabel>Title</StyledLabel>
           <TitleInput

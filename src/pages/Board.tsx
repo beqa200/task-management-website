@@ -199,7 +199,8 @@ const BoardWrapper = styled.div<{
     flex-direction: column;
     align-items: center;
     gap: 25px;
-    left: calc(50% + 144px);
+    left: ${(props) => (props.boardMenu ? "calc(50% + 140px)" : "calc(50%)")};
+    transition: 1s;
     top: 50%;
     transform: translate(-50%, -50%);
     h2 {
