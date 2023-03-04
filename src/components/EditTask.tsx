@@ -86,7 +86,7 @@ export default function EditTask(props: {
             }}
           />
           {errors.title?.message && (
-            <p style={{ left: "60%" }}>Can’t be empty</p>
+            <p style={{ left: "70%" }}>Can’t be empty</p>
           )}
         </div>
         <div className="input-div">

@@ -28,6 +28,7 @@ export default function AddBoard() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<any>({ mode: "all" });
 
@@ -55,13 +56,22 @@ export default function AddBoard() {
 
   const onSubmit = (data: any) => {
     const clone: any = context?.boards;
-    clone.push(newBoard);
-    localStorage.setItem("storedBoards", JSON.stringify(clone));
-    context?.setBoards(clone);
+    if (
+      context?.boards.every(
+        (item) =>
+          item.name.toLocaleLowerCase() != newBoard.name.toLocaleLowerCase()
+      )
+    ) {
+      clone.push(newBoard);
+      localStorage.setItem("storedBoards", JSON.stringify(clone));
+      context?.setBoards(clone);
 
-    context?.setIsNewBoard(false);
-    context?.setPlatform(data.name);
-    navigate(`/${newBoard.slug}`);
+      context?.setIsNewBoard(false);
+      context?.setPlatform(data.name);
+      navigate(`/${newBoard.slug}`);
+    } else {
+      setError("name", { type: "value", message: "Already exists" });
+    }
   };
   return (
     <FormWrapper theme={context?.theme} isDark={context?.isDark}>

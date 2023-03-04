@@ -88,6 +88,10 @@ const FormWrapper = styled.div<{
       color: #ea5555;
       left: 50%;
       bottom: 9px;
+
+      @media (min-width: 768px) {
+        left: 65%;
+      }
     }
   }
 
