@@ -23,9 +23,8 @@ export default function Header() {
     const storedPlatform = localStorage.getItem("platform");
     if (storedPlatform) {
       context?.setPlatform(storedPlatform);
-    }
+    } 
   }, []);
-
   return (
     <HeaderWrapper
       boardMenu={context?.boardMenu}

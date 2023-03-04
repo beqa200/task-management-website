@@ -79,6 +79,10 @@ function App() {
     const storedTheme = localStorage.getItem("theme");
     const storedBoardMenu = localStorage.getItem("boardMenu");
 
+    if (boards[0]) {
+      setPlatform(boards[0].name);
+    }
+
     if (storedBoards) {
       setBoards(JSON.parse(storedBoards));
     }
