@@ -94,7 +94,7 @@ export default function AddBoard() {
             }}
           />
           {errors.name?.message && (
-            <p style={{ width: "96px", left: "60%" }}>Can’t be empty</p>
+            <p style={{ width: "96px", left: "70%" }}>{errors.name?.message.toString()}</p>
           )}
         </div>
         <div className="input-div">

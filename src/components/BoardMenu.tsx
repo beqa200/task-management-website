@@ -32,31 +32,33 @@ export default function BoardMenu() {
         <p className="heading">ALL BOARDS ({context?.boards?.length})</p>
 
         <div className="platforms">
-          {context?.boards?.map((board) => (
-            <Link
-              to={"/" + board.slug}
-              key={Math.random()}
-              onClick={() => {
-                if (context?.documentWidth && context?.documentWidth < 768) {
-                  context?.setBoardMenu(false);
-                }
-              }}
-            >
-              <div
-                className={
-                  context?.platform == board.name
-                    ? "wrapper isActive"
-                    : "wrapper isNotActive"
-                }
+          <div className="scroll">
+            {context?.boards?.map((board) => (
+              <Link
+                to={"/" + board.slug}
+                key={Math.random()}
                 onClick={() => {
-                  context.setPlatform(board.name);
+                  if (context?.documentWidth && context?.documentWidth < 768) {
+                    context?.setBoardMenu(false);
+                  }
                 }}
               >
-                <img src={iconBoard} />
-                <p>{board.name}</p>
-              </div>
-            </Link>
-          ))}
+                <div
+                  className={
+                    context?.platform == board.name
+                      ? "wrapper isActive"
+                      : "wrapper isNotActive"
+                  }
+                  onClick={() => {
+                    context.setPlatform(board.name);
+                  }}
+                >
+                  <img src={iconBoard} />
+                  <p>{board.name}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
           <div
             className="create"
             onClick={() => {
@@ -183,6 +185,15 @@ const BoardMenuWrapper = styled.div<{ isDark: Boolean | undefined }>`
 
   .platforms {
     margin-top: 19px;
+
+    .scroll {
+      overflow-y: auto;
+      max-height: 300px;
+
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+    }
 
     .wrapper {
       display: flex;
