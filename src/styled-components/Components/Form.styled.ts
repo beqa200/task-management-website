@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ThemeType } from "../vite-env";
+import { ThemeType } from "../../vite-env";
 
 const FormWrapper = styled.div<{
   isDark: Boolean | undefined;

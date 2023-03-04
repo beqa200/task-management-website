@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { arrowDown } from "../assets";
+import { arrowDown } from "../../assets";
 
 const TitleInput = styled.input`
   border: 1px solid rgba(130, 143, 163, 0.25);

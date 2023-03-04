@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { theme } from "./GlobalStyle";
+import { theme } from "../GlobalStyle";
 
 const DeleteWrapper = styled.div<{ isDark: Boolean | undefined }>`
   position: absolute;

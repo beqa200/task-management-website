@@ -3,13 +3,13 @@ export {
   StyledButton,
   StyledWhiteButton,
   StyledRedButton,
-} from "./Buttons.styled";
+} from "./Components/Buttons.styled";
 export {
   TitleInput,
   StyledLabel,
   DescriptionInput,
   SubTaskInput,
   SelectInput,
-} from "./Inputs.styled";
-export { default as FormWrapper } from "./Form.styled";
-export { default as DeleteWrapper } from "./Delete.styled";
+} from "./Components/Inputs.styled";
+export { default as FormWrapper } from "./Components/Form.styled";
+export { default as DeleteWrapper } from "./Components/Delete.styled";
