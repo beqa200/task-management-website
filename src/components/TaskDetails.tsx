@@ -33,6 +33,7 @@ export default function TaskDetails(props: {
               props.taskIndex
             ].subtasks.indexOf(subtask)
           ].isCompleted;
+        localStorage.setItem("storedBoards", JSON.stringify(clone));
         context?.setBoards([...clone]);
       }
     });
@@ -163,6 +164,8 @@ const TaskDetailsWrapper = styled.div<{
   transform: translate(-50%, -50%);
   background-color: ${(props) =>
     props.isDark == true ? theme.dark.darkGrey : theme.light.white};
+  transition: 1s;
+
   width: calc(90% - 48px);
   max-width: 432px;
   padding: 24px 24px 32px 24px;
@@ -171,6 +174,8 @@ const TaskDetailsWrapper = styled.div<{
   .more {
     background-color: ${(props) =>
       props.isDark == true ? theme.dark.darkGrey : theme.light.white};
+    transition: 1s;
+
     position: absolute;
     padding: 16px;
     box-shadow: 0px 10px 20px rgba(54, 78, 126, 0.25);
@@ -178,12 +183,20 @@ const TaskDetailsWrapper = styled.div<{
     right: -15px;
     top: 60px;
     z-index: 10;
+
     p {
       font-weight: 500;
       font-size: 13px;
       line-height: 23px;
       color: #828fa3;
       width: 160px;
+
+      &:hover {
+        @media (min-width: 1440px) {
+          cursor: pointer;
+          opacity: 0.7;
+        }
+      }
     }
 
     .delete {
@@ -198,6 +211,7 @@ const TaskDetailsWrapper = styled.div<{
     width: 95%;
     color: ${(props) =>
       props.isDark == true ? theme.dark.white : theme.light.black};
+    transition: 1s;
   }
 
   .for-flex {
@@ -208,6 +222,13 @@ const TaskDetailsWrapper = styled.div<{
 
   .more-img {
     object-fit: none;
+    margin-right: -5px;
+    padding: 5px;
+    &:hover {
+      @media (min-width: 1440px) {
+        cursor: pointer;
+      }
+    }
   }
 
   .description {
@@ -239,11 +260,18 @@ const TaskDetailsWrapper = styled.div<{
       width: calc(100% - 24px);
       background-color: ${(props) =>
         props.isDark == true ? theme.dark.veryDarkGrey : theme.light.lightGrey};
+      transition: 1s;
+
       padding: 22px 12px;
       border-radius: 2px;
       display: flex;
       align-items: center;
       gap: 16px;
+      &:hover {
+        @media (min-width: 1440px) {
+          cursor: pointer;
+        }
+      }
       input {
         accent-color: #635fc7;
       }
@@ -251,6 +279,12 @@ const TaskDetailsWrapper = styled.div<{
       label {
         color: ${(props) =>
           props.isDark == true ? theme.light.white : theme.light.black};
+        transition: 1s;
+        &:hover {
+          @media (min-width: 1440px) {
+            cursor: pointer;
+          }
+        }
       }
     }
   }
@@ -259,16 +293,25 @@ const TaskDetailsWrapper = styled.div<{
     display: flex;
     flex-direction: column;
     margin-top: 24px;
+
     label {
       font-size: 12px;
       line-height: 15px;
       color: ${(props) =>
         props.isDark == true ? theme.light.white : theme.dark.mediumGrey};
+      transition: 1s;
     }
 
     select {
+      &:hover {
+        @media (min-width: 1440px) {
+          cursor: pointer;
+        }
+      }
       color: ${(props) =>
         props.isDark == true ? theme.light.white : theme.light.black};
+      transition: 1s;
+
       option {
         background-color: ${(props) =>
           props.isDark == true
@@ -276,6 +319,7 @@ const TaskDetailsWrapper = styled.div<{
             : theme.light.lightGrey};
         color: ${(props) =>
           props.isDark == true ? theme.light.white : theme.light.black};
+        transition: 1s;
       }
     }
   }

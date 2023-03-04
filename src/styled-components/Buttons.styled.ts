@@ -12,6 +12,13 @@ const StyledButton = styled.button`
   font-size: 15px;
   line-height: 19px;
   color: #ffffff;
+
+  &:hover {
+        @media (min-width: 1440px) {
+          background: #a8a4ff;
+          cursor: pointer;
+        }
+      }
 `;
 
 const StyledWhiteButton = styled.div`
@@ -26,6 +33,7 @@ const StyledWhiteButton = styled.div`
   color: #635fc7;
   text-align: center;
   line-height: 23px;
+  cursor: pointer;
 `;
 
 const StyledRedButton = styled(StyledButton)`
@@ -33,6 +41,13 @@ const StyledRedButton = styled(StyledButton)`
   display: block;
   width: 100%;
   height: 40px;
+
+  &:hover {
+        @media (min-width: 1440px) {
+          background: #FF9898;
+          cursor: pointer;
+        }
+      }
 `;
 
 export { StyledButton, StyledWhiteButton, StyledRedButton };

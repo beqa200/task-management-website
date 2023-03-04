@@ -2,11 +2,13 @@ import { Helmet } from "react-helmet";
 import { BlackScreen, GlobalStyle, theme } from "./styled-components";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
-import { Header } from "./components";
+import { BoardMenu, Header } from "./components";
 import data from "./data.json";
 import Board from "./pages/Board";
 import { ContextProps, Platform, Task } from "./vite-env";
 import Add from "./pages/Add";
+import { hide, show } from "./assets";
+import styled from "styled-components";
 
 export const MyContext = createContext<ContextProps | null>(null);
 
@@ -41,6 +43,20 @@ function App() {
 
   const [platform, setPlatform] = useState<string | undefined>();
 
+  const [documentWidth, setDocumentWidth] = useState(
+    document.documentElement.clientWidth
+  );
+
+  useEffect(() => {
+    function handleResize() {
+      setDocumentWidth(document.documentElement.clientWidth);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [document.documentElement.clientWidth]);
+
   const [boardMenu, setBoardMenu] = useState<boolean>(false);
   const [isDark, setIsDark] = useState<boolean>(true);
   const [isTaskDetails, setIsTaskDetails] = useState<boolean>(false);
@@ -59,15 +75,19 @@ function App() {
       localStorage.setItem("platform", "");
     }
   }, [platform]);
-
   useEffect(() => {
     const storedBoards = localStorage.getItem("storedBoards");
     const storedTheme = localStorage.getItem("theme");
+    const storedBoardMenu = localStorage.getItem("boardMenu");
+
     if (storedBoards) {
       setBoards(JSON.parse(storedBoards));
     }
     if (storedTheme) {
       setIsDark(JSON.parse(storedTheme));
+    }
+    if (storedBoardMenu && documentWidth >= 768) {
+      setBoardMenu(JSON.parse(storedBoardMenu));
     }
   }, []);
   console.log;
@@ -76,6 +96,7 @@ function App() {
       value={{
         boards,
         setBoards,
+        documentWidth,
         theme,
         platform,
         setPlatform,
@@ -113,6 +134,7 @@ function App() {
       <GlobalStyle
         isDark={isDark}
         boardMenu={boardMenu}
+        documentWidth={documentWidth}
         isTaskDetails={isTaskDetails}
         isAddTask={isAddTask}
         isEditTask={isEditTask}
@@ -121,7 +143,7 @@ function App() {
         isNewBoard={isNewBoard}
         isEditBoard={isEditBoard}
       />
-      {(boardMenu ||
+      {((boardMenu && documentWidth < 768) ||
         isTaskDetails ||
         isAddTask ||
         isEditTask ||
@@ -131,7 +153,9 @@ function App() {
         isEditBoard) && (
         <BlackScreen
           onClick={() => {
-            setBoardMenu(false);
+            if (documentWidth < 768) {
+              setBoardMenu(false);
+            }
             setIsTaskDetails(false);
             setIsAddTask(false);
             setIsNewBoard(false);
@@ -140,6 +164,18 @@ function App() {
       )}
       <BrowserRouter>
         <Header />
+        {documentWidth >= 768 && <BoardMenu />}
+        <ShowTaskbar
+          style={
+            boardMenu == false && documentWidth >= 768 ? { display: "block" } : { display: "none" }
+          }
+          onClick={() => {
+            setBoardMenu(true);
+            localStorage.setItem("boardMenu", "true");
+          }}
+        >
+          <img src={show} />
+        </ShowTaskbar>
         <Routes>
           <Route path="/:platform" element={<Board />} />
           <Route path="/" element={<Add />} />
@@ -148,5 +184,20 @@ function App() {
     </MyContext.Provider>
   );
 }
+
+const ShowTaskbar = styled.div`
+  position: fixed;
+  padding: 19px 22px 18px 18px;
+  background-color: #635fc7;
+  border-radius: 0px 100px 100px 0px;
+  bottom: 32px;
+
+  @media (min-width: 1440px) {
+    &:hover {
+      background: #A8A4FF;
+      cursor: pointer;
+    }
+  }
+`;
 
 export default App;

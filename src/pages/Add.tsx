@@ -24,11 +24,12 @@ export default function Add() {
 }
 
 const AddWrapper = styled.div`
-  height: 100vh;
+  height: calc(100vh - 64px);
   display: flex;
   justify-content: center;
   align-items: center;
-
+  width: calc(100% - 280px);
+  margin-left: auto;
   h1 {
     text-align: center;
     color: #828fa3;

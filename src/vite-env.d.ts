@@ -28,6 +28,7 @@ export interface ContextProps {
   setIsEditBoard: (isEditBoard: Boolean) => void;
   isMore: Boolean;
   setIsMore: (isMore: Boolean) => void;
+  documentWidth: Number;
 }
 
 interface Task {

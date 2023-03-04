@@ -18,6 +18,7 @@ const theme = {
 const GlobalStyle = createGlobalStyle<{
   isDark: Boolean | undefined;
   boardMenu: Boolean;
+  documentWidth: Number;
   isTaskDetails: Boolean;
   isAddTask: Boolean;
   isEditTask: Boolean;
@@ -41,7 +42,7 @@ const GlobalStyle = createGlobalStyle<{
             : theme.light.lightGrey};
 
           overflow: ${(props) =>
-            props.boardMenu ||
+            (props.boardMenu && props.documentWidth < 768) ||
             props.isAddTask ||
             props.isTaskDetails ||
             props.isEditTask ||
@@ -50,9 +51,22 @@ const GlobalStyle = createGlobalStyle<{
             props.isNewBoard ||
             props.isEditBoard
               ? "hidden"
-              : "auto"}
+              : "auto"};
+              overflow-x: hidden;
     }
-
+    ::-webkit-scrollbar {
+      width: 15px;
+    }
+    ::-webkit-scrollbar-track {
+      background: ${(props) => (props.isDark === true ? "#393a4b" : "#E3E4F1")};
+      border-radius: 5px;
+      transition: 0.5s;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: ${(props) => (props.isDark === true ? "#5b5e7e" : "white")};
+      border-radius: 5px;
+      transition: 0.5s;
+    }
     a {
       all: unset;
     }

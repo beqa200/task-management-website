@@ -69,11 +69,12 @@ export default function Board() {
     <BoardWrapper
       isDark={context?.isDark}
       theme={context?.theme}
+      boardMenu={context?.boardMenu}
       onClick={() => {
         context?.setIsMore(false);
       }}
     >
-      {context?.boardMenu && <BoardMenu />}
+      {context?.boardMenu && context?.documentWidth < 768 && <BoardMenu />}
       {context?.isAddTask && <AddTask platformIndex={platformIndex} />}
       {context?.isEditTask && (
         <EditTask
@@ -140,7 +141,7 @@ export default function Board() {
                       setTaskIndex(index2);
                     }}
                   >
-                    <h3>{task.title}</h3>
+                    <h3 className="title">{task.title}</h3>
                     <p>
                       {task.completed} of {task.subtasks.length} substasks
                     </p>
@@ -183,16 +184,23 @@ export default function Board() {
 const BoardWrapper = styled.div<{
   isDark: Boolean | undefined;
   theme: ThemeType;
+  boardMenu: Boolean | undefined;
 }>`
   box-sizing: border-box;
 
+  @media (min-width: 768px) {
+    width: ${(props) => (props.boardMenu ? "calc(100% - 280px)" : "100%")};
+    margin-left: ${(props) => (props.boardMenu ? "auto" : "")};
+  }
   .first-column {
+    position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 25px;
-    margin-top: 50%;
-
+    left: calc(50% + 144px);
+    top: 50%;
+    transform: translate(-50%, -50%);
     h2 {
       font-style: normal;
       font-weight: 700;
@@ -205,6 +213,7 @@ const BoardWrapper = styled.div<{
 
     button {
       height: 48px;
+     
     }
   }
 
@@ -214,6 +223,18 @@ const BoardWrapper = styled.div<{
     padding: 24px 16px;
     height: 100%;
     overflow: auto;
+
+    ::-webkit-scrollbar {
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: ${(props) => (props.isDark === true ? "#393a4b" : "#E3E4F1")};
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: ${(props) => (props.isDark === true ? "#5b5e7e" : "white")};
+      border-radius: 5px;
+    }
     .for-flex {
       display: flex;
       gap: 12px;
@@ -239,6 +260,13 @@ const BoardWrapper = styled.div<{
         border-radius: 8px;
         background-color: ${(props) =>
           props.isDark == true ? theme.dark.darkGrey : theme.light.white};
+        transition: 1s;
+        &:hover{
+          @media (min-width: 1440px) {
+            background-color: #635fc7;
+            cursor: pointer;
+          }
+        }
 
         h3 {
           font-weight: 700;
@@ -246,6 +274,7 @@ const BoardWrapper = styled.div<{
           line-height: 19px;
           color: ${(props) =>
             props.isDark == true ? theme.dark.white : theme.light.black};
+          transition: 1s;
         }
 
         p {
@@ -263,10 +292,19 @@ const BoardWrapper = styled.div<{
         props.isDark == true
           ? "linear-gradient( 180deg, rgba(43, 44, 55, 0.25) 0%, rgba(43, 44, 55, 0.125) 100%)"
           : "linear-gradient(180deg, #E9EFFA 0%, rgba(233, 239, 250, 0.5) 100%);"};
+      transition: 1s;
+
       display: flex;
       align-items: center;
       margin-top: 35px;
       border-radius: 6px;
+      &:hover{
+          @media (min-width: 1440px) {
+            background-color: #635fc7;
+            cursor: pointer;
+          }
+        }
+
       h2 {
         padding: 20px 55.5px;
         width: 169px;

@@ -2,12 +2,19 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { MyContext } from "../App";
 import { StyledButton, theme } from "../styled-components";
-import { arrowDown, add, logoMobile, verticalEllipsis } from "../assets";
+import {
+  arrowDown,
+  add,
+  logoMobile,
+  verticalEllipsis,
+  logoDesktopDark,
+  logoDesktopLight,
+} from "../assets";
 import { ContextProps } from "../vite-env";
 
 export default function Header() {
   const context = useContext<ContextProps | null>(MyContext);
-  
+
   const platform: any = context?.boards?.find(
     (item) => item.name == context.platform
   );
@@ -50,8 +57,13 @@ export default function Header() {
         </div>
       )}
       <div className="wrapper">
-        <img className="logo" src={logoMobile} />
+        <img className="logo mobile" src={logoMobile} />
+        <div className="logo-wrapper">
+          <img className="logo-light tablet" src={logoDesktopDark} />
+          <img className="logo-dark tablet" src={logoDesktopLight} />
+        </div>
         <h1
+          className="mobile"
           onClick={() => {
             context?.setBoardMenu(!context.boardMenu);
             context?.setIsTaskDetails(false);
@@ -61,9 +73,19 @@ export default function Header() {
         >
           {context?.platform}
         </h1>
+        <h1
+          className="tablet"
+          style={
+            context?.boardMenu == false
+              ? { marginLeft: "24px", transition: "1.4s" }
+              : { marginLeft: "100px", transition: "1.4s" }
+          }
+        >
+          {context?.platform}
+        </h1>
         <img
           src={arrowDown}
-          className="arrow"
+          className="arrow mobile"
           onClick={() => {
             context?.setBoardMenu(!context.boardMenu);
             context?.setIsTaskDetails(false);
@@ -75,6 +97,7 @@ export default function Header() {
 
       <div className="wrapper">
         <StyledButton
+          className="mobile"
           onClick={() => {
             if (
               context?.boards &&
@@ -83,13 +106,36 @@ export default function Header() {
                 context.boards.length > 0)
             ) {
               context?.setIsAddTask(true);
-              context?.setBoardMenu(false);
+              if (context?.documentWidth < 768) {
+                context?.setBoardMenu(false);
+              }
               context?.setIsTaskDetails(false);
               context?.setIsMore(false);
             }
           }}
         >
           <img src={add} />
+        </StyledButton>
+        <StyledButton
+          className="tablet"
+          style={{ height: "48px" }}
+          onClick={() => {
+            if (
+              context?.boards &&
+              context?.boards[context?.boards.indexOf(platform)].columns
+                .length > 0 &&
+              context.boards.length > 0
+            ) {
+              context?.setIsAddTask(true);
+              if (context?.documentWidth < 768) {
+                context?.setBoardMenu(false);
+              }
+              context?.setIsTaskDetails(false);
+              context?.setIsMore(false);
+            }
+          }}
+        >
+          + Add New Task
         </StyledButton>
         <img
           className="more-icon"
@@ -111,17 +157,38 @@ const HeaderWrapper = styled.header<{
   columnLength: number | undefined;
   boardLength: number | undefined;
 }>`
+  .tablet {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .mobile {
+      display: none;
+    }
+    .tablet {
+      display: block;
+    }
+  }
+
   background-color: ${(props) =>
     props.isDark == true ? theme.dark.darkGrey : theme.light.white};
+  transition: 1s;
+
   height: 64px;
   width: 100vw;
   display: flex;
   align-items: center;
   justify-content: space-between;
 
+  @media (min-width: 768px) {
+    height: 80px;
+  }
+
   .more {
     background-color: ${(props) =>
       props.isDark == true ? theme.dark.darkGrey : theme.light.white};
+    transition: 1s;
+
     position: absolute;
     padding: 16px;
     box-shadow: 0px 10px 20px rgba(54, 78, 126, 0.25);
@@ -135,6 +202,12 @@ const HeaderWrapper = styled.header<{
       line-height: 23px;
       color: #828fa3;
       width: 160px;
+      &:hover {
+        @media (min-width: 1440px) {
+          cursor: pointer;
+          opacity: 0.7;
+        }
+      }
     }
 
     .delete {
@@ -152,8 +225,38 @@ const HeaderWrapper = styled.header<{
     margin-left: 16px;
   }
 
+  @media (min-width: 768px) {
+    .logo-wrapper {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      border-right: ${(props) =>
+        props.isDark == true ? "1px solid #3E3F4E" : "1px solid #E4EBFA"};
+      transition: 1s;
+    }
+    .logo-dark {
+      display: ${(props) => (props.isDark == true ? "block" : "none")};
+      padding: 0 24px;
+    }
+
+    .logo-light {
+      display: ${(props) => (props.isDark == true ? "none" : "block")};
+      padding: 0 24px;
+    }
+  }
+
   .more-icon {
-    margin-right: 16px;
+    margin-right: 11px;
+    padding: 5px;
+    @media (min-width: 768px) {
+      margin-right: 25px;
+    }
+
+    @media (min-width: 1440px) {
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 
   .arrow {
@@ -169,11 +272,16 @@ const HeaderWrapper = styled.header<{
 
   h1 {
     color: ${(props) => (props.isDark == true ? theme.dark.white : "black")};
+    transition: 1s;
 
     font-size: 18px;
     height: 23px;
     margin-left: 16px;
     margin-right: 8px;
+
+    @media (min-width: 768px) {
+      font-size: 20px;
+    }
   }
 
   img {
