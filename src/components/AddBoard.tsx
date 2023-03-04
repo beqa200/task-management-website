@@ -11,6 +11,7 @@ import {
 } from "../styled-components";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { Platform } from "../vite-env";
 
 export default function AddBoard() {
   const context = useContext(MyContext);
@@ -27,10 +28,12 @@ export default function AddBoard() {
   const [newBoard, setNewBoard] = useState({
     name: "",
     slug: "",
+
     columns: [
       {
         name: "",
         tasks: [],
+        color: "",
         id: (Math.random() * 100000).toFixed(0),
       },
     ],
@@ -41,20 +44,22 @@ export default function AddBoard() {
     clone.columns.push({
       name: "",
       tasks: [],
+      color: "",
       id: (Math.random() * 100000).toFixed(0),
     });
     setNewBoard({ ...clone });
   };
 
   const onSubmit = (data: any) => {
-    const clone: any = context?.boards;
+    const clone: Platform[] | undefined = context?.boards;
     if (
+      clone &&
       context?.boards.every(
         (item) =>
           item.name.toLocaleLowerCase() != newBoard.name.toLocaleLowerCase()
       )
     ) {
-      clone.push(newBoard);
+      clone?.push(newBoard);
       localStorage.setItem("storedBoards", JSON.stringify(clone));
       context?.setBoards(clone);
 
@@ -101,7 +106,7 @@ export default function AddBoard() {
               overflowY: "auto",
             }}
           >
-            {newBoard.columns.map((item: any, index) => {
+            {newBoard.columns.map((item, index) => {
               item.color = COLORS[index];
               {
                 return (

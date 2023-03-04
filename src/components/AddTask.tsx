@@ -28,7 +28,7 @@ export default function AddTask(props: { platformIndex: number }) {
   ]);
 
   const addSubTask = () => {
-    const clone: any = [...subTasks];
+    const clone = [...subTasks];
     setSubTasks([
       ...clone,
       {
@@ -39,7 +39,7 @@ export default function AddTask(props: { platformIndex: number }) {
     ]);
   };
   const onSubmit = (data: any) => {
-    if (subTasks.every((obj: any) => obj.title !== "")) {
+    if (subTasks.every((obj) => obj.title !== "")) {
       const newTask: any = {
         title: "",
         description: "",
