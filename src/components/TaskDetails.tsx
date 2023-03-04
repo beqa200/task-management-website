@@ -14,7 +14,6 @@ export default function TaskDetails(props: {
   const context = useContext(MyContext);
   const [isMore, setIsMore] = useState(false);
 
-  //change checkbox value and update whole state
   const toggleSubtaskCompleted = (subtaskId: any) => {
     props.task?.subtasks?.map((subtask) => {
       if (subtask.id === subtaskId) {
@@ -39,7 +38,6 @@ export default function TaskDetails(props: {
     });
   };
 
-  //change task status
   const handleSelectOption = (value: any) => {
     const clone: any = context?.boards;
     const newColumn = clone[props.platformIndex].columns.find(
@@ -175,7 +173,6 @@ const TaskDetailsWrapper = styled.div<{
     background-color: ${(props) =>
       props.isDark == true ? theme.dark.darkGrey : theme.light.white};
     transition: 1s;
-
     position: absolute;
     padding: 16px;
     box-shadow: 0px 10px 20px rgba(54, 78, 126, 0.25);
@@ -204,6 +201,7 @@ const TaskDetailsWrapper = styled.div<{
       margin-top: 16px;
     }
   }
+
   h1 {
     font-weight: 700;
     font-size: 18px;
@@ -224,6 +222,7 @@ const TaskDetailsWrapper = styled.div<{
     object-fit: none;
     margin-right: -5px;
     padding: 5px;
+
     &:hover {
       @media (min-width: 1440px) {
         cursor: pointer;
@@ -261,17 +260,18 @@ const TaskDetailsWrapper = styled.div<{
       background-color: ${(props) =>
         props.isDark == true ? theme.dark.veryDarkGrey : theme.light.lightGrey};
       transition: 1s;
-
       padding: 22px 12px;
       border-radius: 2px;
       display: flex;
       align-items: center;
       gap: 16px;
+
       &:hover {
         @media (min-width: 1440px) {
           cursor: pointer;
         }
       }
+
       input {
         accent-color: #635fc7;
       }
@@ -280,6 +280,7 @@ const TaskDetailsWrapper = styled.div<{
         color: ${(props) =>
           props.isDark == true ? theme.light.white : theme.light.black};
         transition: 1s;
+
         &:hover {
           @media (min-width: 1440px) {
             cursor: pointer;

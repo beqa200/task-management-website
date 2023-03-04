@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { MyContext } from "../App";
 import { StyledButton, theme } from "../styled-components";
@@ -196,12 +196,14 @@ const HeaderWrapper = styled.header<{
     right: 24px;
     top: 60px;
     z-index: 10;
+
     p {
       font-weight: 500;
       font-size: 13px;
       line-height: 23px;
       color: #828fa3;
       width: 160px;
+
       &:hover {
         @media (min-width: 1440px) {
           cursor: pointer;
@@ -234,6 +236,7 @@ const HeaderWrapper = styled.header<{
         props.isDark == true ? "1px solid #3E3F4E" : "1px solid #E4EBFA"};
       transition: 1s;
     }
+
     .logo-dark {
       display: ${(props) => (props.isDark == true ? "block" : "none")};
       padding: 0 24px;
@@ -248,6 +251,7 @@ const HeaderWrapper = styled.header<{
   .more-icon {
     margin-right: 11px;
     padding: 5px;
+
     @media (min-width: 768px) {
       margin-right: 25px;
     }
@@ -273,7 +277,6 @@ const HeaderWrapper = styled.header<{
   h1 {
     color: ${(props) => (props.isDark == true ? theme.dark.white : "black")};
     transition: 1s;
-
     font-size: 18px;
     height: 23px;
     margin-left: 16px;

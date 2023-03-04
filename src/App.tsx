@@ -7,7 +7,7 @@ import data from "./data.json";
 import Board from "./pages/Board";
 import { ContextProps, Platform, Task } from "./vite-env";
 import Add from "./pages/Add";
-import { hide, show } from "./assets";
+import { show } from "./assets";
 import styled from "styled-components";
 
 export const MyContext = createContext<ContextProps | null>(null);
@@ -38,7 +38,6 @@ const COLORS = [
 export { COLORS };
 
 function App() {
-  //global states
   const [boards, setBoards] = useState<Platform[]>(data.boards);
 
   const [platform, setPlatform] = useState<string | undefined>();
@@ -90,7 +89,7 @@ function App() {
       setBoardMenu(JSON.parse(storedBoardMenu));
     }
   }, []);
-  console.log;
+
   return (
     <MyContext.Provider
       value={{
@@ -167,7 +166,9 @@ function App() {
         {documentWidth >= 768 && <BoardMenu />}
         <ShowTaskbar
           style={
-            boardMenu == false && documentWidth >= 768 ? { display: "block" } : { display: "none" }
+            boardMenu == false && documentWidth >= 768
+              ? { display: "block" }
+              : { display: "none" }
           }
           onClick={() => {
             setBoardMenu(true);
@@ -194,7 +195,7 @@ const ShowTaskbar = styled.div`
 
   @media (min-width: 1440px) {
     &:hover {
-      background: #A8A4FF;
+      background: #a8a4ff;
       cursor: pointer;
     }
   }

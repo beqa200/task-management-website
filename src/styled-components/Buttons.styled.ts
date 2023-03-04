@@ -14,11 +14,11 @@ const StyledButton = styled.button`
   color: #ffffff;
 
   &:hover {
-        @media (min-width: 1440px) {
-          background: #a8a4ff;
-          cursor: pointer;
-        }
-      }
+    @media (min-width: 1440px) {
+      background: #a8a4ff;
+      cursor: pointer;
+    }
+  }
 `;
 
 const StyledWhiteButton = styled.div`
@@ -43,11 +43,11 @@ const StyledRedButton = styled(StyledButton)`
   height: 40px;
 
   &:hover {
-        @media (min-width: 1440px) {
-          background: #FF9898;
-          cursor: pointer;
-        }
-      }
+    @media (min-width: 1440px) {
+      background: #ff9898;
+      cursor: pointer;
+    }
+  }
 `;
 
 export { StyledButton, StyledWhiteButton, StyledRedButton };

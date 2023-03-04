@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { COLORS, MyContext } from "../App";
 import { deleteIcon } from "../assets";
 import {
@@ -15,16 +15,8 @@ import { useNavigate } from "react-router";
 export default function AddBoard() {
   const context = useContext(MyContext);
 
-  // useEffect(() => {
-  //   if(context?.boards) {
-
-  //     console.log(context?.boards);
-  //   }
-  // }, [
-  //   context?.boards
-  // ])
-
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,

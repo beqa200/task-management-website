@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import styled from "styled-components";
+
 const theme = {
   dark: {
     veryDarkGrey: "#20212C",

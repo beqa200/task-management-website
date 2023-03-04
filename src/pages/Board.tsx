@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
 import { COLORS, MyContext } from "../App";
@@ -20,18 +20,18 @@ export default function Board() {
   const [taskIndex, setTaskIndex] = useState<number>(0);
   const context = useContext(MyContext);
   const params = useParams();
-  //find platform
+
   const platform = context?.boards?.find(
     (item) => item.slug == params.platform
   );
 
-  //find platform index
   let platformIndex = 0;
   context?.boards.map((item, index) => {
     if (item.slug == params.platform) {
       platformIndex = index;
     }
   });
+
   useEffect(() => {
     const clone = context?.boards;
     clone?.[platformIndex].columns.map((item) => {
@@ -53,7 +53,7 @@ export default function Board() {
       context?.setBoards([...clone]);
     });
   }, [context?.isEditTask]);
-  //set random color circles for each column
+
   platform?.columns?.map((item, index) => {
     item.color = COLORS[index];
     item.tasks.map((item2) => {
@@ -65,6 +65,7 @@ export default function Board() {
       });
     });
   });
+
   return (
     <BoardWrapper
       isDark={context?.isDark}
@@ -213,7 +214,6 @@ const BoardWrapper = styled.div<{
 
     button {
       height: 48px;
-     
     }
   }
 
@@ -227,18 +227,22 @@ const BoardWrapper = styled.div<{
     ::-webkit-scrollbar {
       height: 10px;
     }
+
     ::-webkit-scrollbar-track {
       background: ${(props) => (props.isDark === true ? "#393a4b" : "#E3E4F1")};
       border-radius: 5px;
     }
+
     ::-webkit-scrollbar-thumb {
       background: ${(props) => (props.isDark === true ? "#5b5e7e" : "white")};
       border-radius: 5px;
     }
+
     .for-flex {
       display: flex;
       gap: 12px;
       width: 344px;
+
       h2 {
         font-weight: 700;
         font-size: 12px;
@@ -254,6 +258,7 @@ const BoardWrapper = styled.div<{
       flex-direction: column;
       gap: 20px;
       width: 344px;
+
       .task {
         width: 280px;
         padding: 23px 16px;
@@ -261,7 +266,8 @@ const BoardWrapper = styled.div<{
         background-color: ${(props) =>
           props.isDark == true ? theme.dark.darkGrey : theme.light.white};
         transition: 1s;
-        &:hover{
+
+        &:hover {
           @media (min-width: 1440px) {
             background-color: #635fc7;
             cursor: pointer;
@@ -293,17 +299,16 @@ const BoardWrapper = styled.div<{
           ? "linear-gradient( 180deg, rgba(43, 44, 55, 0.25) 0%, rgba(43, 44, 55, 0.125) 100%)"
           : "linear-gradient(180deg, #E9EFFA 0%, rgba(233, 239, 250, 0.5) 100%);"};
       transition: 1s;
-
       display: flex;
       align-items: center;
       margin-top: 35px;
       border-radius: 6px;
-      &:hover{
-          @media (min-width: 1440px) {
-            background-color: #635fc7;
-            cursor: pointer;
-          }
+      &:hover {
+        @media (min-width: 1440px) {
+          background-color: #635fc7;
+          cursor: pointer;
         }
+      }
 
       h2 {
         padding: 20px 55.5px;

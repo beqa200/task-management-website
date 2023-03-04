@@ -54,10 +54,11 @@ const FormWrapper = styled.div<{
       img {
         object-fit: none;
         margin-top: 8px;
-        &:hover{
+        &:hover {
           @media (min-width: 1440px) {
             cursor: pointer;
-            filter: brightness(0) saturate(100%) invert(45%) sepia(40%) saturate(987%) hue-rotate(315deg) brightness(98%) contrast(87%);
+            filter: brightness(0) saturate(100%) invert(45%) sepia(40%)
+              saturate(987%) hue-rotate(315deg) brightness(98%) contrast(87%);
           }
         }
       }

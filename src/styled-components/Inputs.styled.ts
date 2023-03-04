@@ -9,6 +9,7 @@ const TitleInput = styled.input`
   font-size: 13px;
   line-height: 23px;
   padding: 8px 0px 9px 16px;
+  
   &:focus {
     border-color: #635fc7;
     outline: none;

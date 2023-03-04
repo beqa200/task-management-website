@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { MyContext } from "../App";
 import {
@@ -14,7 +14,6 @@ import { theme } from "../styled-components";
 
 export default function BoardMenu() {
   const context = useContext(MyContext);
-  const params = useParams();
 
   return (
     <BoardMenuWrapper
@@ -114,25 +113,19 @@ const BoardMenuWrapper = styled.div<{ isDark: Boolean | undefined }>`
   z-index: 2;
   transition: 1s;
 
-  @keyframes example {
-    0% {
-      left: 0;
-    }
-    100% {
-      left: -290px;
-    }
-  }
-
   .tablet1 {
     display: none;
   }
 
   @media (min-width: 768px) {
+    .tablet1 {
+      display: block;
+    }
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     z-index: 0;
-
     position: fixed;
     left: 0;
     height: 100vh;
@@ -141,13 +134,8 @@ const BoardMenuWrapper = styled.div<{ isDark: Boolean | undefined }>`
     border-right: ${(props) =>
       props.isDark == true ? "1px solid #3E3F4E" : "1px solid #E4EBFA"};
 
-    .tablet1 {
-      display: block;
-    }
-
     .logo-dark1 {
       display: ${(props) => (props.isDark == true ? "block" : "none")};
-
       padding: 0 24px;
       margin-bottom: 54px;
       margin-top: 16px;
@@ -184,6 +172,7 @@ const BoardMenuWrapper = styled.div<{ isDark: Boolean | undefined }>`
       }
     }
   }
+
   .heading {
     font-weight: 700;
     font-size: 12px;
@@ -275,9 +264,10 @@ const BoardMenuWrapper = styled.div<{ isDark: Boolean | undefined }>`
       align-items: center;
       position: relative;
       cursor: pointer;
+
       &:hover {
         @media (min-width: 1440px) {
-          background: #A8A4FF;
+          background: #a8a4ff;
         }
       }
 

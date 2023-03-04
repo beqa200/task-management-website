@@ -54,17 +54,21 @@ export default function AddBoard(props: {
   };
   const onSubmit = (data: any) => {
     const clone: any = context?.boards;
-    console.log(props.platformIndex)
-    if (context?.boards.every((item, index) => item.name.toLocaleLowerCase() != newBoard.name?.toLocaleLowerCase() || index == props.platformIndex)) {
-    clone[props.platformIndex] = newBoard;
-    context?.setBoards(clone);
-    localStorage.setItem("storedBoards", JSON.stringify(clone));
-    context?.setPlatform(data.name);
-    navigate(`/${newBoard.slug}`);
-    context?.setIsEditBoard(false);
-    }
-    else {
-      setError("name", { type: "value", message: "Already exists" } );
+    if (
+      context?.boards.every(
+        (item, index) =>
+          item.name.toLocaleLowerCase() != newBoard.name?.toLocaleLowerCase() ||
+          index == props.platformIndex
+      )
+    ) {
+      clone[props.platformIndex] = newBoard;
+      context?.setBoards(clone);
+      localStorage.setItem("storedBoards", JSON.stringify(clone));
+      context?.setPlatform(data.name);
+      navigate(`/${newBoard.slug}`);
+      context?.setIsEditBoard(false);
+    } else {
+      setError("name", { type: "value", message: "Already exists" });
     }
   };
   return (
@@ -92,7 +96,9 @@ export default function AddBoard(props: {
             }}
           />
           {errors.name?.message && (
-            <p style={{ width: "96px", left: "70%" }}>{errors.name?.message.toString()}</p>
+            <p style={{ width: "96px", left: "70%" }}>
+              {errors.name?.message.toString()}
+            </p>
           )}
         </div>
         <div className="input-div">
