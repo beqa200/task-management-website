@@ -5,20 +5,18 @@ import { MyContext } from "../App";
 import { AddBoard, BoardMenu } from "../components";
 
 export default function Add() {
-  const navigate = useNavigate();
   const context = useContext(MyContext);
   console.log(context?.boards.length);
-  // useEffect(() => {
-  //   if (context?.boards?.length != 0) {
-  //     navigate("/" + context?.boards?.[0].slug);
-  //   }
-  // }, [context?.boards?.length]);
 
   return (
     <AddWrapper boardMenu={context?.boardMenu}>
       {context?.isNewBoard && <AddBoard />}
       {context?.boardMenu && <BoardMenu />}
-      <h1 className="add">{context?.boards.length == 0 ? "Please Add Platform" : "Please Choose Platform"}</h1>
+      <h1 className="add">
+        {context?.boards.length == 0
+          ? "Please Add Platform"
+          : "Please Choose Platform"}
+      </h1>
     </AddWrapper>
   );
 }
@@ -28,7 +26,7 @@ const AddWrapper = styled.div<{ boardMenu: Boolean | undefined }>`
   display: flex;
   justify-content: center;
   align-items: center;
- 
+
   margin-left: auto;
   .add {
     text-align: center;
@@ -37,7 +35,8 @@ const AddWrapper = styled.div<{ boardMenu: Boolean | undefined }>`
     top: 50%;
     @media (min-width: 768px) {
       transition: 1s;
-    left: ${(props) => (props.boardMenu ? "calc(50% - 60px)" : "calc(50% - 150px)")};
-  }
+      left: ${(props) =>
+        props.boardMenu ? "calc(50% - 60px)" : "calc(50% - 150px)"};
+    }
   }
 `;
