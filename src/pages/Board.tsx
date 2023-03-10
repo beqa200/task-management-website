@@ -31,7 +31,7 @@ export default function Board() {
       platformIndex = index;
     }
   });
-
+console.log(platformIndex);
   useEffect(() => {
     const clone = context?.boards;
     clone?.[platformIndex].columns.map((item) => {
@@ -48,13 +48,16 @@ export default function Board() {
           clone?.[platformIndex].columns
             .find((item) => item.name == item2.status)
             ?.tasks.push(item2);
-          localStorage.setItem("storedBoards", JSON.stringify(clone));
+            localStorage.setItem("storedBoards", JSON.stringify(clone));
         }
       });
       context?.setBoards([...clone]);
+      console.log(clone);
+     
     });
   }, [context?.isEditTask]);
 
+  
   platform?.columns?.map((item, index) => {
     item.color = COLORS[index];
     item.tasks.map((item2) => {
