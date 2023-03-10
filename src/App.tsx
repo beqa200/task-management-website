@@ -40,7 +40,9 @@ export { COLORS };
 function App() {
   const [boards, setBoards] = useState<Platform[]>(data.boards);
 
-  const [platform, setPlatform] = useState<string | undefined>();
+  const [platform, setPlatform] = useState<string | undefined>(
+    data.boards[0].name
+  );
 
   const [documentWidth, setDocumentWidth] = useState(
     document.documentElement.clientWidth
@@ -74,12 +76,11 @@ function App() {
       localStorage.setItem("platform", "");
     }
   }, [platform]);
-  
+
   useEffect(() => {
     const storedBoards = localStorage.getItem("storedBoards");
     const storedTheme = localStorage.getItem("theme");
     const storedBoardMenu = localStorage.getItem("boardMenu");
-
     if (storedBoards) {
       setBoards(JSON.parse(storedBoards));
     }

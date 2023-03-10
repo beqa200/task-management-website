@@ -7,7 +7,10 @@ import { AddBoard, BoardMenu } from "../components";
 export default function Add() {
   const context = useContext(MyContext);
   console.log(context?.boards.length);
-
+  useEffect(() => {
+    context?.setPlatform("");
+  }, [])
+  
   return (
     <AddWrapper boardMenu={context?.boardMenu}>
       {context?.isNewBoard && <AddBoard />}

@@ -80,7 +80,7 @@ export default function Header() {
               : { marginLeft: "100px", transition: "1.4s" }
           }
         >
-          {context?.platform}
+          {context?.boards.length != 0 && context?.platform}
         </h1>
         <img
           src={arrowDown}
@@ -119,6 +119,7 @@ export default function Header() {
           className="tablet"
           style={{ height: "48px" }}
           onClick={() => {
+            console.log(context?.platform)
             if (
               context?.boards &&
               context?.boards[context?.boards.indexOf(platform)].columns

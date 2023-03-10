@@ -48,6 +48,7 @@ export default function Board() {
           clone?.[platformIndex].columns
             .find((item) => item.name == item2.status)
             ?.tasks.push(item2);
+          localStorage.setItem("storedBoards", JSON.stringify(clone));
         }
       });
       context?.setBoards([...clone]);

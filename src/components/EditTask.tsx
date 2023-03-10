@@ -40,10 +40,6 @@ export default function EditTask(props: {
     setValue("status", props.task?.status);
   }, []);
 
-  useEffect(() => {
-    setValue("status", props.task?.status);
-  }, [watch("status")]);
-  
   const addSubTask = () => {
     const clone: any = newTask;
     clone?.subtasks.push({
@@ -159,10 +155,11 @@ a little."
           <SelectInput
             {...register("status")}
             onChange={(e) => {
-              newTask.status = e.target.value;
-              setValue("status", e.target.value);
+              const clone = { ...newTask };
+              clone.status = e.target.value;
+              setNewTask(clone);
             }}
-            value={props.task?.status}
+            value={newTask.status}
           >
             {context?.boards[props.platformIndex].columns.map((column) => (
               <option value={column.name} key={Math.random()}>
