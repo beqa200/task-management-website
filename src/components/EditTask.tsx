@@ -25,6 +25,7 @@ export default function EditTask(props: {
     register,
     setValue,
     handleSubmit,
+    watch,
     formState: { errors },
     clearErrors,
   } = useForm<any>({ mode: "all" });
@@ -39,6 +40,10 @@ export default function EditTask(props: {
     setValue("status", props.task?.status);
   }, []);
 
+  useEffect(() => {
+    setValue("status", props.task?.status);
+  }, [watch("status")]);
+  
   const addSubTask = () => {
     const clone: any = newTask;
     clone?.subtasks.push({
@@ -155,7 +160,9 @@ a little."
             {...register("status")}
             onChange={(e) => {
               newTask.status = e.target.value;
+              setValue("status", e.target.value);
             }}
+            value={props.task?.status}
           >
             {context?.boards[props.platformIndex].columns.map((column) => (
               <option value={column.name} key={Math.random()}>

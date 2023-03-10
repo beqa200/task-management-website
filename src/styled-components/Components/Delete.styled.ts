@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { theme } from "../GlobalStyle";
 
 const DeleteWrapper = styled.div<{ isDark: Boolean | undefined }>`
-  position: absolute;
+  position: fixed;
   z-index: 2;
   top: 50%;
   left: 50%;
